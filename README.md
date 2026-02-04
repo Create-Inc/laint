@@ -11,13 +11,14 @@ npm install laint
 ## Usage
 
 ```typescript
-import { lintJsxCode } from 'laint';
+import { lintJsxCode, getAllRuleNames } from 'laint';
 
 const code = `
   <Link href="./profile">Profile</Link>
   <Button onPress={() => router.navigate('../settings')} />
 `;
 
+// Include mode (default): only run specified rules
 const results = lintJsxCode(code, {
   rules: ['no-relative-paths', 'no-stylesheet-create', 'expo-image-import']
 });
@@ -27,6 +28,27 @@ const results = lintJsxCode(code, {
 //   { rule: 'no-relative-paths', message: '...', line: 2, column: 14, severity: 'error' },
 //   { rule: 'no-relative-paths', message: '...', line: 3, column: 41, severity: 'error' }
 // ]
+```
+
+### Exclude Mode
+
+Run all rules except specific ones:
+
+```typescript
+// Exclude mode: run ALL rules except those listed
+const results = lintJsxCode(code, {
+  rules: ['no-stylesheet-create'], // rules to skip
+  exclude: true
+});
+
+// Run all 26 rules
+const allResults = lintJsxCode(code, {
+  rules: [],
+  exclude: true
+});
+
+// Get list of all available rules
+const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
 ## Available Rules (26 total)
@@ -255,7 +277,8 @@ export function myRule(ast: File, code: string): LintResult[] {
 
 **Parameters:**
 - `code` - JSX/TSX source code to lint
-- `config.rules` - Array of rule names to enable
+- `config.rules` - Array of rule names
+- `config.exclude` - (optional) When `true`, runs all rules except those in `rules`. Default: `false`
 
 **Returns:** Array of `LintResult`:
 ```typescript
@@ -268,10 +291,14 @@ interface LintResult {
 }
 ```
 
+### `getAllRuleNames(): string[]`
+
+Returns an array of all available rule names.
+
 ## Development
 
 ```bash
 npm install     # Install dependencies
-npm test        # Run tests (162 tests)
+npm test        # Run tests (169 tests)
 npm run build   # Build TypeScript
 ```
