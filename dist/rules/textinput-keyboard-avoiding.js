@@ -1,17 +1,11 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.textInputKeyboardAvoiding = textInputKeyboardAvoiding;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'textinput-keyboard-avoiding';
-function textInputKeyboardAvoiding(ast, _code) {
+export function textInputKeyboardAvoiding(ast, _code) {
     const results = [];
     let hasTextInput = false;
     let hasKeyboardAvoidingView = false;
     let textInputLoc = null;
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         ImportDeclaration(path) {
             const { source, specifiers } = path.node;
             // Check for KeyboardAvoidingAnimatedView or KeyboardAvoidingView import

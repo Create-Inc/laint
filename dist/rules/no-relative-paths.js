@@ -1,10 +1,4 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.noRelativePaths = noRelativePaths;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'no-relative-paths';
 function isRelativePath(path) {
     return path.startsWith('./') || path.startsWith('../');
@@ -18,9 +12,9 @@ function createLintResult(node, path, context) {
         severity: 'error',
     };
 }
-function noRelativePaths(ast, _code) {
+export function noRelativePaths(ast, _code) {
     const results = [];
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         CallExpression(path) {
             const { callee, arguments: args } = path.node;
             // Check for router.navigate(), router.push(), router.replace()

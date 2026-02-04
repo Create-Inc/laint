@@ -1,10 +1,4 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.preferLucideIcons = preferLucideIcons;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'prefer-lucide-icons';
 // Common icon libraries that should be replaced with lucide
 const DISCOURAGED_ICON_PACKAGES = [
@@ -14,9 +8,9 @@ const DISCOURAGED_ICON_PACKAGES = [
     '@react-native-vector-icons/material-icons',
     'react-icons',
 ];
-function preferLucideIcons(ast, _code) {
+export function preferLucideIcons(ast, _code) {
     const results = [];
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         ImportDeclaration(path) {
             const { source, loc } = path.node;
             const packageName = source.value;

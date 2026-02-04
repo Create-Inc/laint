@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.tabsScreenOptionsHeaderShown = tabsScreenOptionsHeaderShown;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'tabs-screen-options-header-shown';
-function tabsScreenOptionsHeaderShown(ast, _code) {
+export function tabsScreenOptionsHeaderShown(ast, _code) {
     const results = [];
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         JSXOpeningElement(path) {
             const { name, attributes, loc } = path.node;
             // Check for <Tabs component with screenOptions

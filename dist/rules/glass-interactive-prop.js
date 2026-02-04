@@ -1,10 +1,4 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.glassInteractiveProp = glassInteractiveProp;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'glass-interactive-prop';
 const PRESSABLE_COMPONENTS = [
     'TouchableOpacity',
@@ -13,9 +7,9 @@ const PRESSABLE_COMPONENTS = [
     'Pressable',
     'TouchableNativeFeedback',
 ];
-function glassInteractiveProp(ast, _code) {
+export function glassInteractiveProp(ast, _code) {
     const results = [];
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         JSXElement(path) {
             const { openingElement } = path.node;
             const { name, loc } = openingElement;

@@ -1,16 +1,10 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.nativeTabsBottomPadding = nativeTabsBottomPadding;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'native-tabs-bottom-padding';
-function nativeTabsBottomPadding(ast, _code) {
+export function nativeTabsBottomPadding(ast, _code) {
     const results = [];
     let hasNativeTabsImport = false;
     let nativeTabsUsageLoc = null;
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         ImportDeclaration(path) {
             const { source, specifiers } = path.node;
             // Check for NativeTabs import from expo-router/unstable-native-tabs

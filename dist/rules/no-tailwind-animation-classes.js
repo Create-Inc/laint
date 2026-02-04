@@ -1,16 +1,10 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.noTailwindAnimationClasses = noTailwindAnimationClasses;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'no-tailwind-animation-classes';
 // Tailwind animation class patterns
 const ANIMATION_CLASS_PATTERN = /\banimate-\w+/;
-function noTailwindAnimationClasses(ast, _code) {
+export function noTailwindAnimationClasses(ast, _code) {
     const results = [];
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         JSXAttribute(path) {
             const { name, value } = path.node;
             // Check className or class attribute

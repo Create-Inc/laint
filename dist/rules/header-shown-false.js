@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.headerShownFalse = headerShownFalse;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'header-shown-false';
-function headerShownFalse(ast, _code) {
+export function headerShownFalse(ast, _code) {
     const results = [];
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         JSXOpeningElement(path) {
             const { name, attributes, loc } = path.node;
             // Check for Stack.Screen or Tabs.Screen

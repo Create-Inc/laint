@@ -1,17 +1,11 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.noReactQueryMissing = noReactQueryMissing;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'no-react-query-missing';
-function noReactQueryMissing(ast, _code) {
+export function noReactQueryMissing(ast, _code) {
     const results = [];
     let hasFetchCall = null;
     let hasReactQueryImport = false;
     let hasUseEffectWithFetch = false;
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         ImportDeclaration(path) {
             const { source } = path.node;
             if (source.value === '@tanstack/react-query' ||

@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.noTabBarHeight = noTabBarHeight;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'no-tab-bar-height';
-function noTabBarHeight(ast, _code) {
+export function noTabBarHeight(ast, _code) {
     const results = [];
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         JSXAttribute(path) {
             const { name, value } = path.node;
             // Look for screenOptions or options attribute

@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.noBorderWidthOnGlass = noBorderWidthOnGlass;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'no-border-width-on-glass';
-function noBorderWidthOnGlass(ast, _code) {
+export function noBorderWidthOnGlass(ast, _code) {
     const results = [];
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         JSXOpeningElement(path) {
             const { name, attributes } = path.node;
             // Check for GlassView component

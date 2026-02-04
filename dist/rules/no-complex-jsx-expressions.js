@@ -1,14 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.noComplexJsxExpressions = noComplexJsxExpressions;
-const traverse_1 = __importDefault(require("@babel/traverse"));
+import traverse from '@babel/traverse';
 const RULE_NAME = 'no-complex-jsx-expressions';
-function noComplexJsxExpressions(ast, _code) {
+export function noComplexJsxExpressions(ast, _code) {
     const results = [];
-    (0, traverse_1.default)(ast, {
+    traverse(ast, {
         JSXExpressionContainer(path) {
             const { expression, loc } = path.node;
             // Skip empty expressions
