@@ -31,6 +31,10 @@
     "code-generation",
     "ast"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Create-Inc/laint"
+  },
   "license": "MIT",
   "dependencies": {
     "@babel/parser": "^7.24.0",
