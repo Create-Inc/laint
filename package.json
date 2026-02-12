@@ -5,6 +5,9 @@
   "description": "AI Agent Lint Rules SDK - programmatic JSX/TSX linting for AI code generation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "laint": "./dist/cli.js"
+  },
   "files": [
     "dist"
   ],

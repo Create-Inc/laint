@@ -2,13 +2,53 @@
 
 AI Agent Lint Rules SDK - a simple programmatic API for linting JSX/TSX code.
 
+## Claude Code Integration
+
+The fastest way to use laint is as a [Claude Code hook](https://docs.anthropic.com/en/docs/claude-code/hooks). After every file edit, Claude sees lint violations and fixes them automatically.
+
+```bash
+npx laint init
+```
+
+This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after every `Edit` and `Write` tool call. If the file already exists, it merges without clobbering your other settings.
+
+### Configuring Rules
+
+By default, all 31 rules run. To customize, create a `laint.config.json` in your project root:
+
+```json
+// Only run these specific rules (include mode)
+{ "rules": ["no-relative-paths", "expo-image-import", "fetch-response-ok-check"] }
+```
+
+```json
+// Run all rules except these (exclude mode)
+{ "rules": ["no-tailwind-animation-classes", "no-stylesheet-create"], "exclude": true }
+```
+
+### CLI
+
+```bash
+# Lint a file directly
+npx laint check src/components/Button.tsx
+
+# Hook mode (used by Claude Code automatically — reads stdin JSON)
+npx laint check --hook
+```
+
+**Exit codes:**
+
+- `0` — clean (no violations)
+- `1` — violations found (file mode)
+- `2` — violations found (hook mode, stderr output for Claude)
+
 ## Installation
 
 ```bash
 npm install laint
 ```
 
-## Usage
+## Programmatic Usage
 
 ```typescript
 import { lintJsxCode, getAllRuleNames } from 'laint';
@@ -404,6 +444,8 @@ Returns an array of all available rule names.
 
 ```bash
 npm install     # Install dependencies
-npm test        # Run tests (196 tests)
+npm test        # Run tests (213 tests)
 npm run build   # Build TypeScript
+npm run lint    # ESLint + Prettier
+npm run knip    # Dead code detection
 ```
