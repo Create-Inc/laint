@@ -1,12 +1,16 @@
 import traverse from '@babel/traverse';
-import type { File, Statement } from '@babel/types';
+import type { File, IfStatement, Statement } from '@babel/types';
 import type { LintResult } from '../types';
 
 const RULE_NAME = 'prefer-guard-clauses';
 
-function bodyStatements(node: any): Statement[] | null {
+interface FunctionNode {
+  body?: { type: string; body?: Statement[] };
+}
+
+function bodyStatements(node: FunctionNode): Statement[] | null {
   if (node.body?.type === 'BlockStatement') {
-    return node.body.body as Statement[];
+    return (node.body.body ?? null) as Statement[] | null;
   }
   return null;
 }
@@ -16,14 +20,14 @@ export function preferGuardClauses(ast: File, _code: string): LintResult[] {
 
   traverse(ast, {
     'FunctionDeclaration|FunctionExpression|ArrowFunctionExpression'(path) {
-      const statements = bodyStatements(path.node);
+      const statements = bodyStatements(path.node as FunctionNode);
       if (!statements || statements.length === 0) return;
 
       // Case 1: Function body is a single if statement wrapping all logic
       if (
         statements.length === 1 &&
         statements[0].type === 'IfStatement' &&
-        !statements[0].alternate
+        !(statements[0] as IfStatement).alternate
       ) {
         const ifStmt = statements[0];
         results.push({
@@ -40,7 +44,7 @@ export function preferGuardClauses(ast: File, _code: string): LintResult[] {
       // Case 2: Nested if statements without else (arrow pattern)
       for (const stmt of statements) {
         if (stmt.type !== 'IfStatement') continue;
-        checkNestedIfs(stmt, 1, results);
+        checkNestedIfs(stmt as IfStatement, results);
       }
     },
   });
@@ -48,24 +52,20 @@ export function preferGuardClauses(ast: File, _code: string): LintResult[] {
   return results;
 }
 
-function checkNestedIfs(node: any, depth: number, results: LintResult[]): void {
-  if (node.type !== 'IfStatement') return;
+function checkNestedIfs(node: IfStatement, results: LintResult[]): void {
   if (node.alternate) return;
 
   const consequent = node.consequent;
-  const body = consequent.type === 'BlockStatement' ? consequent.body : [consequent];
+  const body: Statement[] =
+    consequent.type === 'BlockStatement' ? (consequent.body as Statement[]) : [consequent];
 
-  if (body.length === 1 && body[0].type === 'IfStatement' && !body[0].alternate) {
-    if (depth >= 1) {
-      results.push({
-        rule: RULE_NAME,
-        message: 'Use guard clauses (early returns) instead of nesting if statements',
-        line: body[0].loc?.start.line ?? 0,
-        column: body[0].loc?.start.column ?? 0,
-        severity: 'warning',
-      });
-      return;
-    }
-    checkNestedIfs(body[0], depth + 1, results);
+  if (body.length === 1 && body[0].type === 'IfStatement' && !(body[0] as IfStatement).alternate) {
+    results.push({
+      rule: RULE_NAME,
+      message: 'Use guard clauses (early returns) instead of nesting if statements',
+      line: body[0].loc?.start.line ?? 0,
+      column: body[0].loc?.start.column ?? 0,
+      severity: 'warning',
+    });
   }
 }

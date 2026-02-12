@@ -9,6 +9,14 @@ export function noTypeAssertion(ast: File, _code: string): LintResult[] {
 
   traverse(ast, {
     TSAsExpression(path) {
+      // Skip "as const" — it's idiomatic TypeScript for readonly literals
+      if (path.node.typeAnnotation.type === 'TSTypeReference') {
+        const typeName = path.node.typeAnnotation.typeName;
+        if (typeName.type === 'Identifier' && typeName.name === 'const') {
+          return;
+        }
+      }
+
       const { loc } = path.node;
       results.push({
         rule: RULE_NAME,
