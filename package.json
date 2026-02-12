@@ -1,6 +1,6 @@
 {
   "name": "laint",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "type": "module",
   "description": "AI Agent Lint Rules SDK - programmatic JSX/TSX linting for AI code generation",
   "main": "dist/index.js",
