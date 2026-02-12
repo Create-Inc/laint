@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (31 total)
+## Available Rules (33 total)
 
 ### Expo Router Rules
 
@@ -157,6 +157,13 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | `no-require-statements`      | error    | Use ES imports, not CommonJS require                          |
 | `no-response-json-lowercase` | warning  | Use Response.json() instead of new Response(JSON.stringify()) |
 | `sql-no-nested-calls`        | error    | Don't nest sql template tags                                  |
+
+### Code Style Rules
+
+| Rule                   | Severity | Description                                               |
+| ---------------------- | -------- | --------------------------------------------------------- |
+| `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
+| `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
 
 ### General Rules
 
@@ -378,6 +385,41 @@ sql`UPDATE users SET ${sql`name = ${name}`} WHERE id = ${id}`;
 sql`UPDATE users SET name = ${name} WHERE id = ${id}`;
 ```
 
+### `prefer-guard-clauses`
+
+```typescript
+// Bad - entire function body wrapped in if
+function handleClick(user) {
+  if (user) {
+    doSomething();
+    doMore();
+  }
+}
+
+// Good - early return
+function handleClick(user) {
+  if (!user) return;
+  doSomething();
+  doMore();
+}
+```
+
+### `no-type-assertion`
+
+```typescript
+// Bad - type casting
+const value = data as string;
+const user = response.data as User;
+
+// Good - type narrowing
+if (typeof data === 'string') {
+  const value = data;
+}
+
+// Good - proper typing
+const user: User = response.data;
+```
+
 ---
 
 ## Adding a New Rule
@@ -444,7 +486,7 @@ Returns an array of all available rule names.
 
 ```bash
 npm install     # Install dependencies
-npm test        # Run tests (213 tests)
+npm test        # Run tests
 npm run build   # Build TypeScript
 npm run lint    # ESLint + Prettier
 npm run knip    # Dead code detection
