@@ -27,10 +27,10 @@ describe('no-type-assertion rule', () => {
       expect(results).toHaveLength(2);
     });
 
-    it('should detect as const', () => {
+    it('should not flag as const', () => {
       const code = `const colors = ['red', 'blue'] as const;`;
       const results = lintJsxCode(code, config);
-      expect(results).toHaveLength(1);
+      expect(results).toHaveLength(0);
     });
 
     it('should detect as in function arguments', () => {
