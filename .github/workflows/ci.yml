@@ -33,6 +33,17 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: CLI smoke test
+        run: |
+          echo '<div />' > /tmp/clean.tsx
+          node dist/cli.js check /tmp/clean.tsx
+          echo '{"tool_input":{"file_path":"/tmp/clean.tsx"}}' | node dist/cli.js check --hook
+          node dist/cli.js init
+          test -f .claude/settings.json
+
+      - name: Package dry-run
+        run: npm pack --dry-run 2>&1 | tee /dev/stderr | grep -q 'dist/cli.js'
+
   lint:
     name: Lint & Format
     runs-on: ubuntu-latest
