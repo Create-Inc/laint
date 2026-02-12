@@ -30,6 +30,8 @@ import { transitionProgressRange } from './transition-progress-range';
 import { transitionGestureScrollview } from './transition-gesture-scrollview';
 import { transitionSharedTagMismatch } from './transition-shared-tag-mismatch';
 import { transitionPreferBlankStack } from './transition-prefer-blank-stack';
+import { preferGuardClauses } from './prefer-guard-clauses';
+import { noTypeAssertion } from './no-type-assertion';
 
 export const rules: Record<string, RuleFunction> = {
   'no-relative-paths': noRelativePaths,
@@ -63,4 +65,6 @@ export const rules: Record<string, RuleFunction> = {
   'transition-gesture-scrollview': transitionGestureScrollview,
   'transition-shared-tag-mismatch': transitionSharedTagMismatch,
   'transition-prefer-blank-stack': transitionPreferBlankStack,
+  'prefer-guard-clauses': preferGuardClauses,
+  'no-type-assertion': noTypeAssertion,
 };
