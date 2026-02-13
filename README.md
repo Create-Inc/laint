@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (33 total)
+## Available Rules (34 total)
 
 ### Expo Router Rules
 
@@ -164,6 +164,7 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | ---------------------- | -------- | --------------------------------------------------------- |
 | `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
 | `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| `no-optional-props`    | warning  | Use `prop: T \| null` instead of `prop?: T` in interfaces |
 
 ### General Rules
 
@@ -421,6 +422,22 @@ const user: User = response.data;
 ```
 
 ---
+
+### `no-optional-props`
+
+```typescript
+// Bad - optional properties create implicit undefined
+interface UserProps {
+  name?: string;
+  age?: number;
+}
+
+// Good - explicit null union
+interface UserProps {
+  name: string | null;
+  age: number | null;
+}
+```
 
 ## Adding a New Rule
 
