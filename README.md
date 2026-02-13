@@ -164,6 +164,7 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | ---------------------- | -------- | --------------------------------------------------------- |
 | `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
 | `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| `no-inline-styles`     | warning  | Use Tailwind classes instead of inline style prop         |
 
 ### General Rules
 
@@ -418,6 +419,20 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+---
+
+### `no-inline-styles`
+
+```jsx
+// Bad - inline style prop
+<div style={{ color: 'red' }} />
+<View style={styles.container} />
+
+// Good - use Tailwind classes
+<div className="text-red-500" />
+<View className="flex-1" />
 ```
 
 ---
