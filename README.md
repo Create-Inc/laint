@@ -164,6 +164,7 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | ---------------------- | -------- | --------------------------------------------------------- |
 | `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
 | `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| `safe-json-parse`      | warning  | Wrap JSON.parse in try-catch to handle malformed input    |
 
 ### General Rules
 
@@ -418,6 +419,26 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+---
+
+### `safe-json-parse`
+
+```typescript
+// Bad - JSON.parse without error handling
+const data = JSON.parse(rawInput);
+
+// Good - wrapped in try-catch
+try {
+  const data = JSON.parse(rawInput);
+} catch (e) {
+  console.error('Failed to parse JSON', e);
+}
+
+// For JSON.stringify with circular references, consider using fast-safe-stringify
+// import stringify from "fast-safe-stringify";
+// const str = stringify(circularObj);
 ```
 
 ---
