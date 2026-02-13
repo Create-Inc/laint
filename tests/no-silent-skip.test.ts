@@ -61,6 +61,39 @@ describe('no-silent-skip rule', () => {
       const results = lintJsxCode(code, config);
       expect(results).toHaveLength(1);
     });
+
+    it('should flag negated condition without else', () => {
+      const code = `
+        function process(error) {
+          if (!error) {
+            proceedWithWork();
+            saveResults();
+          }
+        }
+      `;
+      const results = lintJsxCode(code, config);
+      expect(results).toHaveLength(1);
+    });
+
+    it('should flag if with empty block body', () => {
+      const code = `
+        function process(data) {
+          if (data) {}
+        }
+      `;
+      const results = lintJsxCode(code, config);
+      expect(results).toHaveLength(1);
+    });
+
+    it('should flag if without braces', () => {
+      const code = `
+        function process(data) {
+          if (data) handle(data);
+        }
+      `;
+      const results = lintJsxCode(code, config);
+      expect(results).toHaveLength(1);
+    });
   });
 
   describe('should not flag', () => {
