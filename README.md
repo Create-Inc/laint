@@ -164,6 +164,7 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | ---------------------- | -------- | --------------------------------------------------------- |
 | `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
 | `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| `no-silent-skip`       | warning  | Add else branch with logging instead of silently skipping |
 
 ### General Rules
 
@@ -418,6 +419,35 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-silent-skip`
+
+```typescript
+// Bad - silently skips when user is falsy
+function process(user) {
+  if (user) {
+    sendEmail(user);
+    updateDb(user);
+  }
+}
+
+// Good - logs why the else case was skipped
+function process(user) {
+  if (user) {
+    sendEmail(user);
+    updateDb(user);
+  } else {
+    logger.warn("No user provided, skipping processing");
+  }
+}
+
+// Also fine - guard clause with early return
+function process(user) {
+  if (!user) return;
+  sendEmail(user);
+  updateDb(user);
+}
 ```
 
 ---
