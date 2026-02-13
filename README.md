@@ -164,6 +164,7 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | ---------------------- | -------- | --------------------------------------------------------- |
 | `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
 | `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| `no-nested-try-catch`  | warning  | Avoid nested try-catch; flatten or use Result types       |
 
 ### General Rules
 
@@ -418,6 +419,46 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+---
+
+### `no-nested-try-catch`
+
+```typescript
+// Bad - nested try-catch blocks
+async function fetchData() {
+  try {
+    const response = await fetch(url);
+    try {
+      const data = await response.json();
+      return data;
+    } catch (parseError) {
+      console.error('Parse failed', parseError);
+    }
+  } catch (networkError) {
+    console.error('Network failed', networkError);
+  }
+}
+
+// Good - flattened with early return
+async function fetchData() {
+  let response;
+  try {
+    response = await fetch(url);
+  } catch (networkError) {
+    console.error('Network failed', networkError);
+    return null;
+  }
+
+  try {
+    const data = await response.json();
+    return data;
+  } catch (parseError) {
+    console.error('Parse failed', parseError);
+    return null;
+  }
+}
 ```
 
 ---
