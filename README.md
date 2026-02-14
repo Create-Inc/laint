@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 31 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 35 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -81,7 +81,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 31 rules
+// Run all 35 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (33 total)
+## Available Rules (35 total)
 
 ### Expo Router Rules
 
@@ -165,6 +165,7 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
 | `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
 | `no-silent-skip`       | warning  | Add else branch with logging instead of silently skipping |
+| `no-manual-retry-loop` | warning  | Use a retry library instead of manual retry/polling loops |
 
 ### General Rules
 
@@ -448,6 +449,28 @@ function process(user) {
   sendEmail(user);
   updateDb(user);
 }
+```
+
+### `no-manual-retry-loop`
+
+```typescript
+// Bad - manual retry loop with setTimeout
+for (let attempt = 0; attempt < 15; attempt++) {
+  const result = await checkStatus(id);
+  if (result.ready) return result;
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+}
+
+// Good - use a retry library
+import retry from 'async-retry';
+const result = await retry(
+  async () => {
+    const res = await checkStatus(id);
+    if (!res.ready) throw new Error('not ready');
+    return res;
+  },
+  { retries: 15, minTimeout: 2000 },
+);
 ```
 
 ---

@@ -33,6 +33,7 @@ import { transitionPreferBlankStack } from './transition-prefer-blank-stack';
 import { preferGuardClauses } from './prefer-guard-clauses';
 import { noTypeAssertion } from './no-type-assertion';
 import { noSilentSkip } from './no-silent-skip';
+import { noManualRetryLoop } from './no-manual-retry-loop';
 
 export const rules: Record<string, RuleFunction> = {
   'no-relative-paths': noRelativePaths,
@@ -69,4 +70,5 @@ export const rules: Record<string, RuleFunction> = {
   'prefer-guard-clauses': preferGuardClauses,
   'no-type-assertion': noTypeAssertion,
   'no-silent-skip': noSilentSkip,
+  'no-manual-retry-loop': noManualRetryLoop,
 };
