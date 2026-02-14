@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 39 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 40 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -88,7 +88,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 39 rules
+// Run all 40 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (39 total)
+## Available Rules (40 total)
 
 ### Expo Router Rules
 
@@ -191,6 +191,7 @@ const backendRules = getRulesForPlatform('backend');
 | ------------------------ | -------- | --------- | ---------------------------------------------------------------- |
 | `prefer-guard-clauses`   | warning  | universal | Use early returns instead of nesting if statements               |
 | `no-type-assertion`      | warning  | universal | Avoid `as` type casts; use type narrowing or proper types        |
+| `no-nested-try-catch`    | warning  | universal | Avoid nested try-catch blocks, extract to separate functions     |
 | `no-string-coerce-error` | warning  | universal | Use JSON.stringify instead of String() for unknown caught errors |
 | `logger-error-with-err`  | warning  | universal | logger.error() must include { err: Error } for stack traces      |
 | `no-optional-props`      | warning  | universal | Use `prop: T \| null` instead of `prop?: T` in interfaces        |
@@ -450,6 +451,27 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-nested-try-catch`
+
+```typescript
+// Bad - nested try-catch
+try {
+  try {
+    inner();
+  } catch (e) {}
+} catch (e) {}
+
+// Good - extract to separate function
+function safeInner() {
+  try {
+    inner();
+  } catch (e) {}
+}
+try {
+  safeInner();
+} catch (e) {}
 ```
 
 ### `no-inline-styles`
