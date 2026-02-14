@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 44 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 45 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -88,7 +88,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 44 rules
+// Run all 45 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (44 total)
+## Available Rules (45 total)
 
 ### Expo Router Rules
 
@@ -196,6 +196,7 @@ const backendRules = getRulesForPlatform('backend');
 | Rule                       | Severity | Description                                                        |
 | -------------------------- | -------- | ------------------------------------------------------------------ |
 | `catch-must-log-to-sentry` | warning  | Catch blocks with logger.error/console.error must also call Sentry |
+| `no-new-error-in-err`      | warning  | Don't construct Error objects inside neverthrow err()              |
 
 ### Code Style Rules
 
@@ -465,6 +466,19 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-new-error-in-err`
+
+```typescript
+// Bad - constructing Error inside neverthrow err()
+return err(new Error('Failed to detect pull request', { cause: error }));
+
+// Good - use a plain object
+return err({ message: 'Failed to detect pull request', cause: error });
+
+// Good - use a string
+return err('Failed to detect pull request');
 ```
 
 ### `no-loose-equality`

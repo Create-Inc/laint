@@ -32,6 +32,7 @@ import { transitionSharedTagMismatch } from './transition-shared-tag-mismatch';
 import { transitionPreferBlankStack } from './transition-prefer-blank-stack';
 import { preferGuardClauses } from './prefer-guard-clauses';
 import { noTypeAssertion } from './no-type-assertion';
+import { noNewErrorInErr } from './no-new-error-in-err';
 import { noLooseEquality } from './no-loose-equality';
 import { noMagicEnvStrings } from './no-magic-env-strings';
 import { urlParamsMustEncode } from './url-params-must-encode';
@@ -78,6 +79,7 @@ export const rules: Record<string, RuleFunction> = {
   'transition-prefer-blank-stack': transitionPreferBlankStack,
   'prefer-guard-clauses': preferGuardClauses,
   'no-type-assertion': noTypeAssertion,
+  'no-new-error-in-err': noNewErrorInErr,
   'no-loose-equality': noLooseEquality,
   'no-magic-env-strings': noMagicEnvStrings,
   'url-params-must-encode': urlParamsMustEncode,
