@@ -165,6 +165,11 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | `prefer-guard-clauses`  | warning  | Use early returns instead of nesting if statements          |
 | `no-type-assertion`     | warning  | Avoid `as` type casts; use type narrowing or proper types   |
 | `logger-error-with-err` | warning  | logger.error() must include { err: Error } for stack traces |
+| Rule                   | Severity | Description                                               |
+| ---------------------- | -------- | --------------------------------------------------------- |
+| `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
+| `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| `no-manual-retry-loop` | warning  | Use a retry library instead of manual retry/polling loops |
 
 ### General Rules
 
@@ -432,6 +437,28 @@ logger.error('something went wrong');
 // Good - includes err for stack traces
 logger.error({ err: error }, 'something failed');
 logger.error({ err: new Error('x'), userId: 1 }, 'request failed');
+```
+
+### `no-manual-retry-loop`
+
+```typescript
+// Bad - manual retry loop with setTimeout
+for (let attempt = 0; attempt < 15; attempt++) {
+  const result = await checkStatus(id);
+  if (result.ready) return result;
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+}
+
+// Good - use a retry library
+import retry from 'async-retry';
+const result = await retry(
+  async () => {
+    const res = await checkStatus(id);
+    if (!res.ready) throw new Error('not ready');
+    return res;
+  },
+  { retries: 15, minTimeout: 2000 },
+);
 ```
 
 ---
