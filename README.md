@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 38 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 39 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -88,7 +88,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 38 rules
+// Run all 39 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (38 total)
+## Available Rules (39 total)
 
 ### Expo Router Rules
 
@@ -175,6 +175,7 @@ const backendRules = getRulesForPlatform('backend');
 | Rule                            | Severity | Platform | Description                                            |
 | ------------------------------- | -------- | -------- | ------------------------------------------------------ |
 | `no-tailwind-animation-classes` | warning  | web      | Avoid animate-\* classes, use style jsx global instead |
+| `no-inline-styles`              | warning  | web      | Avoid inline styles, use Tailwind CSS classes instead  |
 
 ### Backend / SQL Rules
 
@@ -449,6 +450,16 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-inline-styles`
+
+```tsx
+// Bad - inline style objects
+<div style={{ color: 'red', fontSize: 16 }}>Hello</div>
+
+// Good - Tailwind CSS classes
+<div className="text-red-500 text-base">Hello</div>
 ```
 
 ### `no-string-coerce-error`
