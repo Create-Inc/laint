@@ -28,7 +28,7 @@ export function urlParamsMustEncode(ast: File, _code: string): LintResult[] {
           continue;
         }
 
-        // Also allow String() or toString() wrapping encodeURIComponent inside
+        // Also allow function calls wrapping encodeURIComponent, e.g. String(encodeURIComponent(...))
         if (t.isCallExpression(expr)) {
           const arg = expr.arguments[0];
           if (

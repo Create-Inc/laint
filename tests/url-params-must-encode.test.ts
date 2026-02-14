@@ -46,6 +46,12 @@ describe(RULE, () => {
     expect(results).toHaveLength(0);
   });
 
+  it('allows String(encodeURIComponent(...)) wrapped values', () => {
+    const code = 'const url = `https://api.example.com?q=${String(encodeURIComponent(query))}`;';
+    const results = lint(code);
+    expect(results).toHaveLength(0);
+  });
+
   it('does not flag non-template string concatenation', () => {
     const code = 'const url = "https://api.example.com?q=" + query;';
     const results = lint(code);
