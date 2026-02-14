@@ -172,6 +172,12 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | --------------------- | -------- | --------------------------------------------- |
 | `prefer-lucide-icons` | warning  | Prefer lucide-react/lucide-react-native icons |
 
+### Agent Code Quality Rules
+
+| Rule                      | Severity | Description                                                    |
+| ------------------------- | -------- | -------------------------------------------------------------- |
+| `no-placeholder-comments` | warning  | Detect TODO, FIXME, and placeholder comments left by AI agents |
+
 ---
 
 ## Rule Details
