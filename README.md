@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (34 total)
+## Available Rules (35 total)
 
 ### Expo Router Rules
 
