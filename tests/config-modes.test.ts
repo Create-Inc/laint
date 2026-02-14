@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { lintJsxCode, getAllRuleNames } from '../src';
+import { lintJsxCode, getAllRuleNames, getRulesForPlatform } from '../src';
 
 describe('config modes', () => {
   describe('include mode (default)', () => {
@@ -90,6 +90,29 @@ describe('config modes', () => {
 
       expect(results).toHaveLength(1);
       expect(results[0].rule).toBe('no-relative-paths');
+    });
+  });
+
+  describe('platform mode', () => {
+    it('should run platform-specific rules when platform is set', () => {
+      const code = `
+        import { Image } from 'react-native';
+        router.navigate('./profile');
+      `;
+      const results = lintJsxCode(code, {
+        rules: [],
+        platform: 'expo',
+      });
+
+      const ruleNames = results.map((r) => r.rule);
+      expect(ruleNames).toContain('expo-image-import');
+      expect(ruleNames).toContain('no-relative-paths');
+    });
+
+    it('should return correct rules via getRulesForPlatform', () => {
+      const expoRules = getRulesForPlatform('expo');
+      expect(expoRules).toContain('no-stylesheet-create');
+      expect(expoRules).not.toContain('sql-no-nested-calls');
     });
   });
 
