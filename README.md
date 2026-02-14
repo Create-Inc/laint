@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 31 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 38 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -81,7 +81,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 31 rules
+// Run all 38 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (34 total)
+## Available Rules (38 total)
 
 ### Expo Router Rules
 
@@ -160,11 +160,15 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 
 ### Code Style Rules
 
-| Rule                   | Severity | Description                                               |
-| ---------------------- | -------- | --------------------------------------------------------- |
-| `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
-| `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
-| `safe-json-parse`      | warning  | Wrap JSON.parse in try-catch to handle malformed input    |
+| Rule                    | Severity | Description                                                 |
+| ----------------------- | -------- | ----------------------------------------------------------- |
+| `prefer-guard-clauses`  | warning  | Use early returns instead of nesting if statements          |
+| `no-type-assertion`     | warning  | Avoid `as` type casts; use type narrowing or proper types   |
+| `safe-json-parse`       | warning  | Wrap JSON.parse in try-catch to handle malformed input      |
+| `logger-error-with-err` | warning  | logger.error() must include { err: Error } for stack traces |
+| `no-optional-props`     | warning  | Use `prop: T \| null` instead of `prop?: T` in interfaces   |
+| `no-silent-skip`        | warning  | Add else branch with logging instead of silently skipping   |
+| `no-manual-retry-loop`  | warning  | Use a retry library instead of manual retry/polling loops   |
 
 ### General Rules
 
@@ -421,6 +425,70 @@ if (typeof data === 'string') {
 const user: User = response.data;
 ```
 
+### `logger-error-with-err`
+
+```typescript
+// Bad - missing err property
+logger.error({}, 'something failed');
+logger.error({ userId: 1 }, 'request failed');
+logger.error('something went wrong');
+
+// Good - includes err for stack traces
+logger.error({ err: error }, 'something failed');
+logger.error({ err: new Error('x'), userId: 1 }, 'request failed');
+```
+
+### `no-silent-skip`
+
+```typescript
+// Bad - silently skips when user is falsy
+function process(user) {
+  if (user) {
+    sendEmail(user);
+    updateDb(user);
+  }
+}
+
+// Good - logs why the else case was skipped
+function process(user) {
+  if (user) {
+    sendEmail(user);
+    updateDb(user);
+  } else {
+    logger.warn('No user provided, skipping processing');
+  }
+}
+
+// Also fine - guard clause with early return
+function process(user) {
+  if (!user) return;
+  sendEmail(user);
+  updateDb(user);
+}
+```
+
+### `no-manual-retry-loop`
+
+```typescript
+// Bad - manual retry loop with setTimeout
+for (let attempt = 0; attempt < 15; attempt++) {
+  const result = await checkStatus(id);
+  if (result.ready) return result;
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+}
+
+// Good - use a retry library
+import retry from 'async-retry';
+const result = await retry(
+  async () => {
+    const res = await checkStatus(id);
+    if (!res.ready) throw new Error('not ready');
+    return res;
+  },
+  { retries: 15, minTimeout: 2000 },
+);
+```
+
 ---
 
 ### `safe-json-parse`
@@ -442,6 +510,22 @@ try {
 ```
 
 ---
+
+### `no-optional-props`
+
+```typescript
+// Bad - optional properties create implicit undefined
+interface UserProps {
+  name?: string;
+  age?: number;
+}
+
+// Good - explicit null union
+interface UserProps {
+  name: string | null;
+  age: number | null;
+}
+```
 
 ## Adding a New Rule
 
