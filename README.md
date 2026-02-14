@@ -162,9 +162,9 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 
 | Rule                   | Severity | Description                                               |
 | ---------------------- | -------- | --------------------------------------------------------- |
-| `prefer-guard-clauses`  | warning  | Use early returns instead of nesting if statements              |
-| `no-type-assertion`     | warning  | Avoid `as` type casts; use type narrowing or proper types       |
-| `no-manual-retry-loop`  | warning  | Use a retry library instead of manual retry/polling loops       |
+| `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
+| `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| `no-manual-retry-loop` | warning  | Use a retry library instead of manual retry/polling loops |
 
 ### General Rules
 
@@ -439,7 +439,7 @@ const result = await retry(
     if (!res.ready) throw new Error('not ready');
     return res;
   },
-  { retries: 15, minTimeout: 2000 }
+  { retries: 15, minTimeout: 2000 },
 );
 ```
 
