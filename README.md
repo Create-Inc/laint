@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 38 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 45 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -25,6 +25,13 @@ By default, all 38 rules run. To customize, create a `laint.config.json` in your
 // Run all rules except these (exclude mode)
 { "rules": ["no-tailwind-animation-classes", "no-stylesheet-create"], "exclude": true }
 ```
+
+```json
+// Run all rules for a platform (platform mode)
+{ "platform": "expo" }
+```
+
+**Platforms:** `expo`, `web`, `backend`. Platform mode runs all rules tagged for that platform plus universal rules (rules not specific to any platform).
 
 ### CLI
 
@@ -81,7 +88,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 38 rules
+// Run all 45 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -91,90 +98,126 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (38 total)
+### Platform Mode
+
+Run rules by platform — includes platform-tagged rules plus universal rules:
+
+```typescript
+import { lintJsxCode, getRulesForPlatform } from 'laint';
+
+// Run all rules for Expo
+const results = lintJsxCode(code, {
+  rules: [],
+  platform: 'expo',
+});
+
+// Get rule names for a platform
+const expoRules = getRulesForPlatform('expo'); // expo-tagged + universal rules
+const webRules = getRulesForPlatform('web');
+const backendRules = getRulesForPlatform('backend');
+```
+
+## Available Rules (45 total)
 
 ### Expo Router Rules
 
-| Rule                 | Severity | Description                                              |
-| -------------------- | -------- | -------------------------------------------------------- |
-| `no-relative-paths`  | error    | Use absolute paths in router.navigate/push and Link href |
-| `header-shown-false` | warning  | (tabs) Screen in root layout needs `headerShown: false`  |
+| Rule                 | Severity | Platform  | Description                                              |
+| -------------------- | -------- | --------- | -------------------------------------------------------- |
+| `no-relative-paths`  | error    | expo, web | Use absolute paths in router.navigate/push and Link href |
+| `header-shown-false` | warning  | expo      | (tabs) Screen in root layout needs `headerShown: false`  |
 
 ### React Native / Expo Rules
 
-| Rule                               | Severity | Description                                          |
-| ---------------------------------- | -------- | ---------------------------------------------------- |
-| `no-stylesheet-create`             | warning  | Use inline styles instead of StyleSheet.create()     |
-| `no-safeareaview`                  | warning  | Use useSafeAreaInsets() hook instead of SafeAreaView |
-| `expo-image-import`                | warning  | Import Image from expo-image, not react-native       |
-| `no-tab-bar-height`                | error    | Never set explicit height in tabBarStyle             |
-| `scrollview-horizontal-flexgrow`   | warning  | Horizontal ScrollView needs `flexGrow: 0`            |
-| `expo-font-loaded-check`           | error    | useFonts() must check loaded before rendering        |
-| `tabs-screen-options-header-shown` | warning  | Tabs screenOptions should have `headerShown: false`  |
-| `native-tabs-bottom-padding`       | warning  | NativeTabs screens need 64px bottom padding          |
-| `textinput-keyboard-avoiding`      | warning  | TextInput should be inside KeyboardAvoidingView      |
+| Rule                               | Severity | Platform | Description                                          |
+| ---------------------------------- | -------- | -------- | ---------------------------------------------------- |
+| `no-stylesheet-create`             | warning  | expo     | Use inline styles instead of StyleSheet.create()     |
+| `no-safeareaview`                  | warning  | expo     | Use useSafeAreaInsets() hook instead of SafeAreaView |
+| `expo-image-import`                | warning  | expo     | Import Image from expo-image, not react-native       |
+| `no-tab-bar-height`                | error    | expo     | Never set explicit height in tabBarStyle             |
+| `scrollview-horizontal-flexgrow`   | warning  | expo     | Horizontal ScrollView needs `flexGrow: 0`            |
+| `expo-font-loaded-check`           | error    | expo     | useFonts() must check loaded before rendering        |
+| `tabs-screen-options-header-shown` | warning  | expo     | Tabs screenOptions should have `headerShown: false`  |
+| `native-tabs-bottom-padding`       | warning  | expo     | NativeTabs screens need 64px bottom padding          |
+| `textinput-keyboard-avoiding`      | warning  | expo     | TextInput should be inside KeyboardAvoidingView      |
 
 ### Liquid Glass Rules (expo-glass-effect)
 
-| Rule                         | Severity | Description                                           |
-| ---------------------------- | -------- | ----------------------------------------------------- |
-| `no-border-width-on-glass`   | error    | No borderWidth on GlassView (breaks borderRadius)     |
-| `glass-needs-fallback`       | warning  | Check isLiquidGlassAvailable() before using GlassView |
-| `glass-interactive-prop`     | warning  | GlassView in pressables needs `isInteractive={true}`  |
-| `glass-no-opacity-animation` | warning  | No opacity animations on GlassView                    |
+| Rule                         | Severity | Platform | Description                                           |
+| ---------------------------- | -------- | -------- | ----------------------------------------------------- |
+| `no-border-width-on-glass`   | error    | expo     | No borderWidth on GlassView (breaks borderRadius)     |
+| `glass-needs-fallback`       | warning  | expo     | Check isLiquidGlassAvailable() before using GlassView |
+| `glass-interactive-prop`     | warning  | expo     | GlassView in pressables needs `isInteractive={true}`  |
+| `glass-no-opacity-animation` | warning  | expo     | No opacity animations on GlassView                    |
 
 ### React / JSX Rules
 
-| Rule                         | Severity | Description                                   |
-| ---------------------------- | -------- | --------------------------------------------- |
-| `no-class-components`        | warning  | Use function components with hooks            |
-| `no-inline-script-code`      | error    | Script tags should use template literals      |
-| `no-react-query-missing`     | warning  | Use @tanstack/react-query for data fetching   |
-| `browser-api-in-useeffect`   | warning  | window/localStorage only in useEffect for SSR |
-| `fetch-response-ok-check`    | warning  | Check response.ok when using fetch            |
-| `no-complex-jsx-expressions` | warning  | Avoid IIFEs and complex expressions in JSX    |
+| Rule                         | Severity | Platform     | Description                                   |
+| ---------------------------- | -------- | ------------ | --------------------------------------------- |
+| `no-class-components`        | warning  | expo, web    | Use function components with hooks            |
+| `no-inline-script-code`      | error    | web          | Script tags should use template literals      |
+| `no-react-query-missing`     | warning  | expo, web    | Use @tanstack/react-query for data fetching   |
+| `browser-api-in-useeffect`   | warning  | web          | window/localStorage only in useEffect for SSR |
+| `fetch-response-ok-check`    | warning  | web, backend | Check response.ok when using fetch            |
+| `no-complex-jsx-expressions` | warning  | expo, web    | Avoid IIFEs and complex expressions in JSX    |
 
 ### Screen Transitions Rules (react-native-screen-transitions)
 
-| Rule                             | Severity | Description                                                               |
-| -------------------------------- | -------- | ------------------------------------------------------------------------- |
-| `transition-worklet-directive`   | error    | screenStyleInterpolator functions must include "worklet" directive        |
-| `transition-progress-range`      | warning  | interpolate() should cover full [0, 1, 2] range including exit phase      |
-| `transition-gesture-scrollview`  | warning  | Use Transition.ScrollView/FlatList instead of regular versions            |
-| `transition-shared-tag-mismatch` | warning  | sharedBoundTag on Transition.Pressable must have matching Transition.View |
-| `transition-prefer-blank-stack`  | warning  | Use Blank Stack instead of enableTransitions on Native Stack              |
+| Rule                             | Severity | Platform | Description                                                               |
+| -------------------------------- | -------- | -------- | ------------------------------------------------------------------------- |
+| `transition-worklet-directive`   | error    | expo     | screenStyleInterpolator functions must include "worklet" directive        |
+| `transition-progress-range`      | warning  | expo     | interpolate() should cover full [0, 1, 2] range including exit phase      |
+| `transition-gesture-scrollview`  | warning  | expo     | Use Transition.ScrollView/FlatList instead of regular versions            |
+| `transition-shared-tag-mismatch` | warning  | expo     | sharedBoundTag on Transition.Pressable must have matching Transition.View |
+| `transition-prefer-blank-stack`  | warning  | expo     | Use Blank Stack instead of enableTransitions on Native Stack              |
 
 ### Tailwind CSS Rules
 
-| Rule                            | Severity | Description                                            |
-| ------------------------------- | -------- | ------------------------------------------------------ |
-| `no-tailwind-animation-classes` | warning  | Avoid animate-\* classes, use style jsx global instead |
+| Rule                            | Severity | Platform | Description                                            |
+| ------------------------------- | -------- | -------- | ------------------------------------------------------ |
+| `no-tailwind-animation-classes` | warning  | web      | Avoid animate-\* classes, use style jsx global instead |
+| `no-inline-styles`              | warning  | web      | Avoid inline styles, use Tailwind CSS classes instead  |
 
 ### Backend / SQL Rules
 
-| Rule                         | Severity | Description                                                   |
-| ---------------------------- | -------- | ------------------------------------------------------------- |
-| `no-require-statements`      | error    | Use ES imports, not CommonJS require                          |
-| `no-response-json-lowercase` | warning  | Use Response.json() instead of new Response(JSON.stringify()) |
-| `sql-no-nested-calls`        | error    | Don't nest sql template tags                                  |
+| Rule                         | Severity | Platform | Description                                                   |
+| ---------------------------- | -------- | -------- | ------------------------------------------------------------- |
+| `no-require-statements`      | error    | backend  | Use ES imports, not CommonJS require                          |
+| `no-response-json-lowercase` | warning  | backend  | Use Response.json() instead of new Response(JSON.stringify()) |
+| `sql-no-nested-calls`        | error    | backend  | Don't nest sql template tags                                  |
+
+### URL Rules
+
+| Rule                     | Severity | Description                                                    |
+| ------------------------ | -------- | -------------------------------------------------------------- |
+| `url-params-must-encode` | warning  | URL query param values must be wrapped in encodeURIComponent() |
+
+### Error Handling Rules
+
+| Rule                       | Severity | Description                                                        |
+| -------------------------- | -------- | ------------------------------------------------------------------ |
+| `catch-must-log-to-sentry` | warning  | Catch blocks with logger.error/console.error must also call Sentry |
 
 ### Code Style Rules
 
-| Rule                    | Severity | Description                                                 |
-| ----------------------- | -------- | ----------------------------------------------------------- |
-| `prefer-guard-clauses`  | warning  | Use early returns instead of nesting if statements          |
-| `no-type-assertion`     | warning  | Avoid `as` type casts; use type narrowing or proper types   |
-| `safe-json-parse`       | warning  | Wrap JSON.parse in try-catch to handle malformed input      |
-| `logger-error-with-err` | warning  | logger.error() must include { err: Error } for stack traces |
-| `no-optional-props`     | warning  | Use `prop: T \| null` instead of `prop?: T` in interfaces   |
-| `no-silent-skip`        | warning  | Add else branch with logging instead of silently skipping   |
-| `no-manual-retry-loop`  | warning  | Use a retry library instead of manual retry/polling loops   |
+| Rule                     | Severity | Platform  | Description                                                      |
+| ------------------------ | -------- | --------- | ---------------------------------------------------------------- |
+| `prefer-guard-clauses`   | warning  | universal | Use early returns instead of nesting if statements               |
+| `no-type-assertion`      | warning  | universal | Avoid `as` type casts; use type narrowing or proper types        |
+| `safe-json-parse`        | warning  | universal | Wrap JSON.parse in try-catch to handle malformed input           |
+| `no-loose-equality`      | warning  | universal | Use === and !== instead of == and != (except == null)            |
+| `no-magic-env-strings`   | warning  | universal | Use centralized enum for env variable names, not magic strings   |
+| `no-nested-try-catch`    | warning  | universal | Avoid nested try-catch blocks, extract to separate functions     |
+| `no-string-coerce-error` | warning  | universal | Use JSON.stringify instead of String() for unknown caught errors |
+| `logger-error-with-err`  | warning  | universal | logger.error() must include { err: Error } for stack traces      |
+| `no-optional-props`      | warning  | universal | Use `prop: T \| null` instead of `prop?: T` in interfaces        |
+| `no-silent-skip`         | warning  | universal | Add else branch with logging instead of silently skipping        |
+| `no-manual-retry-loop`   | warning  | universal | Use a retry library instead of manual retry/polling loops        |
 
 ### General Rules
 
-| Rule                  | Severity | Description                                   |
-| --------------------- | -------- | --------------------------------------------- |
-| `prefer-lucide-icons` | warning  | Prefer lucide-react/lucide-react-native icons |
+| Rule                  | Severity | Platform  | Description                                   |
+| --------------------- | -------- | --------- | --------------------------------------------- |
+| `prefer-lucide-icons` | warning  | expo, web | Prefer lucide-react/lucide-react-native icons |
 
 ---
 
@@ -425,6 +468,106 @@ if (typeof data === 'string') {
 const user: User = response.data;
 ```
 
+### `no-loose-equality`
+
+```typescript
+// Bad - loose equality
+if (a == b) {
+}
+if (x != 'hello') {
+}
+
+// Good - strict equality
+if (a === b) {
+}
+if (x !== 'hello') {
+}
+
+// OK - == null is idiomatic for null/undefined check
+if (value == null) {
+}
+```
+
+### `no-magic-env-strings`
+
+````typescript
+// Bad - hardcoded env string
+const key = process.env.API_KEY;
+const url = process.env['DATABASE_URL'];
+
+// Good - use centralized enum
+const key = process.env[EnvVars.API_KEY];
+
+### `url-params-must-encode`
+
+```typescript
+// Bad - unencoded query param
+const url = `https://api.example.com?q=${query}`;
+
+// Good - encoded query param
+const url = `https://api.example.com?q=${encodeURIComponent(query)}`;
+````
+
+### `catch-must-log-to-sentry`
+
+```typescript
+// Bad - logs error but no Sentry
+try {
+  fetchData();
+} catch (error) {
+  logger.error('Failed', error);
+}
+
+// Good - both logging and Sentry
+try {
+  fetchData();
+} catch (error) {
+  logger.error('Failed', error);
+  Sentry.captureException(error);
+}
+```
+
+### `no-nested-try-catch`
+
+```typescript
+// Bad - nested try-catch
+try {
+  try {
+    inner();
+  } catch (e) {}
+} catch (e) {}
+
+// Good - extract to separate function
+function safeInner() {
+  try {
+    inner();
+  } catch (e) {}
+}
+try {
+  safeInner();
+} catch (e) {}
+```
+
+### `no-inline-styles`
+
+```tsx
+// Bad - inline style objects
+<div style={{ color: 'red', fontSize: 16 }}>Hello</div>
+
+// Good - Tailwind CSS classes
+<div className="text-red-500 text-base">Hello</div>
+```
+
+### `no-string-coerce-error`
+
+```typescript
+// Bad - String() on a non-Error object produces '[object Object]'
+const message = error instanceof Error ? error.message : String(error);
+
+// Good - JSON.stringify preserves object structure
+const message = error instanceof Error ? error.message : JSON.stringify(error);
+```
+
 ### `logger-error-with-err`
 
 ```typescript
@@ -570,6 +713,7 @@ export function myRule(ast: File, code: string): LintResult[] {
 - `code` - JSX/TSX source code to lint
 - `config.rules` - Array of rule names
 - `config.exclude` - (optional) When `true`, runs all rules except those in `rules`. Default: `false`
+- `config.platform` - (optional) `'expo' | 'web' | 'backend'`. When set, runs platform-tagged + universal rules. Takes precedence over `rules`/`exclude`
 
 **Returns:** Array of `LintResult`:
 
@@ -586,6 +730,12 @@ interface LintResult {
 ### `getAllRuleNames(): string[]`
 
 Returns an array of all available rule names.
+
+### `getRulesForPlatform(platform: Platform): string[]`
+
+Returns rule names for a platform (platform-tagged + universal rules).
+
+**Platforms:** `'expo' | 'web' | 'backend'`
 
 ## Development
 

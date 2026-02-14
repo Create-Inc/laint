@@ -33,6 +33,13 @@ import { transitionPreferBlankStack } from './transition-prefer-blank-stack';
 import { preferGuardClauses } from './prefer-guard-clauses';
 import { noTypeAssertion } from './no-type-assertion';
 import { safeJsonParse } from './safe-json-parse';
+import { noLooseEquality } from './no-loose-equality';
+import { noMagicEnvStrings } from './no-magic-env-strings';
+import { urlParamsMustEncode } from './url-params-must-encode';
+import { catchMustLogToSentry } from './catch-must-log-to-sentry';
+import { noNestedTryCatch } from './no-nested-try-catch';
+import { noInlineStyles } from './no-inline-styles';
+import { noStringCoerceError } from './no-string-coerce-error';
 import { loggerErrorWithErr } from './logger-error-with-err';
 import { noOptionalProps } from './no-optional-props';
 import { noSilentSkip } from './no-silent-skip';
@@ -73,6 +80,13 @@ export const rules: Record<string, RuleFunction> = {
   'prefer-guard-clauses': preferGuardClauses,
   'no-type-assertion': noTypeAssertion,
   'safe-json-parse': safeJsonParse,
+  'no-loose-equality': noLooseEquality,
+  'no-magic-env-strings': noMagicEnvStrings,
+  'url-params-must-encode': urlParamsMustEncode,
+  'catch-must-log-to-sentry': catchMustLogToSentry,
+  'no-nested-try-catch': noNestedTryCatch,
+  'no-inline-styles': noInlineStyles,
+  'no-string-coerce-error': noStringCoerceError,
   'logger-error-with-err': loggerErrorWithErr,
   'no-optional-props': noOptionalProps,
   'no-silent-skip': noSilentSkip,
