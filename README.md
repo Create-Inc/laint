@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 37 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 38 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -81,7 +81,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 37 rules
+// Run all 38 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (37 total)
+## Available Rules (38 total)
 
 ### Expo Router Rules
 
@@ -160,14 +160,15 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 
 ### Code Style Rules
 
-| Rule                    | Severity | Description                                                 |
-| ----------------------- | -------- | ----------------------------------------------------------- |
-| `prefer-guard-clauses`  | warning  | Use early returns instead of nesting if statements          |
-| `no-type-assertion`     | warning  | Avoid `as` type casts; use type narrowing or proper types   |
-| `logger-error-with-err` | warning  | logger.error() must include { err: Error } for stack traces |
-| `no-optional-props`     | warning  | Use `prop: T \| null` instead of `prop?: T` in interfaces   |
-| `no-silent-skip`        | warning  | Add else branch with logging instead of silently skipping   |
-| `no-manual-retry-loop`  | warning  | Use a retry library instead of manual retry/polling loops   |
+| Rule                     | Severity | Description                                                      |
+| ------------------------ | -------- | ---------------------------------------------------------------- |
+| `prefer-guard-clauses`   | warning  | Use early returns instead of nesting if statements               |
+| `no-type-assertion`      | warning  | Avoid `as` type casts; use type narrowing or proper types        |
+| `no-string-coerce-error` | warning  | Use JSON.stringify instead of String() for unknown caught errors |
+| `logger-error-with-err`  | warning  | logger.error() must include { err: Error } for stack traces      |
+| `no-optional-props`      | warning  | Use `prop: T \| null` instead of `prop?: T` in interfaces        |
+| `no-silent-skip`         | warning  | Add else branch with logging instead of silently skipping        |
+| `no-manual-retry-loop`   | warning  | Use a retry library instead of manual retry/polling loops        |
 
 ### General Rules
 
@@ -422,6 +423,16 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-string-coerce-error`
+
+```typescript
+// Bad - String() on a non-Error object produces '[object Object]'
+const message = error instanceof Error ? error.message : String(error);
+
+// Good - JSON.stringify preserves object structure
+const message = error instanceof Error ? error.message : JSON.stringify(error);
 ```
 
 ### `logger-error-with-err`
