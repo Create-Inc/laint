@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 40 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 41 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (40 total)
+## Available Rules (41 total)
 
 ### Expo Router Rules
 
@@ -184,6 +184,12 @@ const backendRules = getRulesForPlatform('backend');
 | `no-require-statements`      | error    | backend  | Use ES imports, not CommonJS require                          |
 | `no-response-json-lowercase` | warning  | backend  | Use Response.json() instead of new Response(JSON.stringify()) |
 | `sql-no-nested-calls`        | error    | backend  | Don't nest sql template tags                                  |
+
+### Error Handling Rules
+
+| Rule                       | Severity | Description                                                        |
+| -------------------------- | -------- | ------------------------------------------------------------------ |
+| `catch-must-log-to-sentry` | warning  | Catch blocks with logger.error/console.error must also call Sentry |
 
 ### Code Style Rules
 
@@ -451,6 +457,25 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `catch-must-log-to-sentry`
+
+```typescript
+// Bad - logs error but no Sentry
+try {
+  fetchData();
+} catch (error) {
+  logger.error('Failed', error);
+}
+
+// Good - both logging and Sentry
+try {
+  fetchData();
+} catch (error) {
+  logger.error('Failed', error);
+  Sentry.captureException(error);
+}
 ```
 
 ### `no-nested-try-catch`

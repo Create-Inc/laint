@@ -32,6 +32,7 @@ import { transitionSharedTagMismatch } from './transition-shared-tag-mismatch';
 import { transitionPreferBlankStack } from './transition-prefer-blank-stack';
 import { preferGuardClauses } from './prefer-guard-clauses';
 import { noTypeAssertion } from './no-type-assertion';
+import { catchMustLogToSentry } from './catch-must-log-to-sentry';
 import { noNestedTryCatch } from './no-nested-try-catch';
 import { noInlineStyles } from './no-inline-styles';
 import { noStringCoerceError } from './no-string-coerce-error';
@@ -74,6 +75,7 @@ export const rules: Record<string, RuleFunction> = {
   'transition-prefer-blank-stack': transitionPreferBlankStack,
   'prefer-guard-clauses': preferGuardClauses,
   'no-type-assertion': noTypeAssertion,
+  'catch-must-log-to-sentry': catchMustLogToSentry,
   'no-nested-try-catch': noNestedTryCatch,
   'no-inline-styles': noInlineStyles,
   'no-string-coerce-error': noStringCoerceError,
