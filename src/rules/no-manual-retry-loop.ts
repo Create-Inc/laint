@@ -14,7 +14,12 @@ export function noManualRetryLoop(ast: File, _code: string): LintResult[] {
       loopPath.traverse({
         CallExpression(innerPath) {
           const callee = innerPath.node.callee;
-          if (callee.type === 'Identifier' && callee.name === 'setTimeout') {
+          if (
+            (callee.type === 'Identifier' && callee.name === 'setTimeout') ||
+            (callee.type === 'MemberExpression' &&
+              callee.property.type === 'Identifier' &&
+              callee.property.name === 'setTimeout')
+          ) {
             hasSetTimeout = true;
             innerPath.stop();
           }

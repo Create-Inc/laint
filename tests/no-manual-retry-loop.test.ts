@@ -54,6 +54,18 @@ describe('no-manual-retry-loop rule', () => {
       expect(results).toHaveLength(1);
     });
 
+    it('should detect window.setTimeout in loop', () => {
+      const code = `
+        async function waitLoop() {
+          for (let i = 0; i < 5; i++) {
+            await new Promise(r => window.setTimeout(r, 1000));
+          }
+        }
+      `;
+      const results = lintJsxCode(code, config);
+      expect(results).toHaveLength(1);
+    });
+
     it('should detect bare setTimeout in loop', () => {
       const code = `
         async function waitLoop() {
