@@ -33,6 +33,12 @@ import { transitionPreferBlankStack } from './transition-prefer-blank-stack';
 import { preferGuardClauses } from './prefer-guard-clauses';
 import { noTypeAssertion } from './no-type-assertion';
 import { noStringCoerceError } from './no-string-coerce-error';
+import { noInlineStyles } from './no-inline-styles';
+import { catchMustLogToSentry } from './catch-must-log-to-sentry';
+import { noNestedTryCatch } from './no-nested-try-catch';
+import { urlParamsMustEncode } from './url-params-must-encode';
+import { noMagicEnvStrings } from './no-magic-env-strings';
+import { noLooseEquality } from './no-loose-equality';
 
 export const rules: Record<string, RuleFunction> = {
   'no-relative-paths': noRelativePaths,
@@ -69,4 +75,10 @@ export const rules: Record<string, RuleFunction> = {
   'prefer-guard-clauses': preferGuardClauses,
   'no-type-assertion': noTypeAssertion,
   'no-string-coerce-error': noStringCoerceError,
+  'no-inline-styles': noInlineStyles,
+  'catch-must-log-to-sentry': catchMustLogToSentry,
+  'no-nested-try-catch': noNestedTryCatch,
+  'url-params-must-encode': urlParamsMustEncode,
+  'no-magic-env-strings': noMagicEnvStrings,
+  'no-loose-equality': noLooseEquality,
 };

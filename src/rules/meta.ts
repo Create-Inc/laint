@@ -30,6 +30,7 @@ export const rulePlatforms: Partial<Record<string, Platform[]>> = {
   'no-inline-script-code': ['web'],
   'browser-api-in-useeffect': ['web'],
   'no-tailwind-animation-classes': ['web'],
+  'no-inline-styles': ['web'],
 
   // Expo + Web (shared frontend)
   'no-relative-paths': ['expo', 'web'],
@@ -40,6 +41,8 @@ export const rulePlatforms: Partial<Record<string, Platform[]>> = {
 
   // Web + Backend
   'fetch-response-ok-check': ['web', 'backend'],
+  'catch-must-log-to-sentry': ['web', 'backend'],
+  'url-params-must-encode': ['web', 'backend'],
 
   // Backend only
   'no-require-statements': ['backend'],
@@ -47,5 +50,5 @@ export const rulePlatforms: Partial<Record<string, Platform[]>> = {
   'sql-no-nested-calls': ['backend'],
 
   // Universal rules (NOT listed here): prefer-guard-clauses, no-type-assertion,
-  // no-string-coerce-error
+  // no-string-coerce-error, no-nested-try-catch, no-magic-env-strings, no-loose-equality
 };

@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (34 total)
+## Available Rules (40 total)
 
 ### Expo Router Rules
 
@@ -175,6 +175,7 @@ const backendRules = getRulesForPlatform('backend');
 | Rule                            | Severity | Platform | Description                                            |
 | ------------------------------- | -------- | -------- | ------------------------------------------------------ |
 | `no-tailwind-animation-classes` | warning  | web      | Avoid animate-\* classes, use style jsx global instead |
+| `no-inline-styles`              | warning  | web      | Avoid inline styles, use Tailwind CSS classes instead  |
 
 ### Backend / SQL Rules
 
@@ -184,6 +185,13 @@ const backendRules = getRulesForPlatform('backend');
 | `no-response-json-lowercase` | warning  | backend  | Use Response.json() instead of new Response(JSON.stringify()) |
 | `sql-no-nested-calls`        | error    | backend  | Don't nest sql template tags                                  |
 
+### Error Handling Rules
+
+| Rule                       | Severity | Platform     | Description                                                        |
+| -------------------------- | -------- | ------------ | ------------------------------------------------------------------ |
+| `catch-must-log-to-sentry` | warning  | web, backend | Catch blocks with logger.error/console.error must also call Sentry |
+| `url-params-must-encode`   | warning  | web, backend | URL query param values must be wrapped in encodeURIComponent()     |
+
 ### Code Style Rules
 
 | Rule                     | Severity | Platform  | Description                                                      |
@@ -191,6 +199,9 @@ const backendRules = getRulesForPlatform('backend');
 | `prefer-guard-clauses`   | warning  | universal | Use early returns instead of nesting if statements               |
 | `no-type-assertion`      | warning  | universal | Avoid `as` type casts; use type narrowing or proper types        |
 | `no-string-coerce-error` | warning  | universal | Use JSON.stringify instead of String() for unknown caught errors |
+| `no-nested-try-catch`    | warning  | universal | Avoid nested try-catch blocks, extract to separate functions     |
+| `no-magic-env-strings`   | warning  | universal | Use centralized enum for env variable names, not magic strings   |
+| `no-loose-equality`      | warning  | universal | Use === and !== instead of == and != (except == null)            |
 
 ### General Rules
 
@@ -455,6 +466,97 @@ const message = error instanceof Error ? error.message : String(error);
 
 // Good - JSON.stringify preserves object structure
 const message = error instanceof Error ? error.message : JSON.stringify(error);
+```
+
+### `no-inline-styles`
+
+```tsx
+// Bad - inline style objects
+<div style={{ color: 'red', fontSize: 16 }}>Hello</div>
+
+// Good - Tailwind CSS classes
+<div className="text-red-500 text-base">Hello</div>
+```
+
+### `no-nested-try-catch`
+
+```typescript
+// Bad - nested try-catch
+try {
+  try {
+    inner();
+  } catch (e) {}
+} catch (e) {}
+
+// Good - extract to separate function
+function safeInner() {
+  try {
+    inner();
+  } catch (e) {}
+}
+try {
+  safeInner();
+} catch (e) {}
+```
+
+### `catch-must-log-to-sentry`
+
+```typescript
+// Bad - logs error but no Sentry
+try {
+  fetchData();
+} catch (error) {
+  logger.error('Failed', error);
+}
+
+// Good - both logging and Sentry
+try {
+  fetchData();
+} catch (error) {
+  logger.error('Failed', error);
+  Sentry.captureException(error);
+}
+```
+
+### `url-params-must-encode`
+
+```typescript
+// Bad - unencoded query param
+const url = `https://api.example.com?q=${query}`;
+
+// Good - encoded query param
+const url = `https://api.example.com?q=${encodeURIComponent(query)}`;
+```
+
+### `no-magic-env-strings`
+
+```typescript
+// Bad - hardcoded env string
+const key = process.env.API_KEY;
+const url = process.env['DATABASE_URL'];
+
+// Good - use centralized enum
+const key = process.env[EnvVars.API_KEY];
+```
+
+### `no-loose-equality`
+
+```typescript
+// Bad - loose equality
+if (a == b) {
+}
+if (x != 'hello') {
+}
+
+// Good - strict equality
+if (a === b) {
+}
+if (x !== 'hello') {
+}
+
+// OK - == null is idiomatic for null/undefined check
+if (value == null) {
+}
 ```
 
 ---
