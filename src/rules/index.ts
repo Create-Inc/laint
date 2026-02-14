@@ -32,6 +32,7 @@ import { transitionSharedTagMismatch } from './transition-shared-tag-mismatch';
 import { transitionPreferBlankStack } from './transition-prefer-blank-stack';
 import { preferGuardClauses } from './prefer-guard-clauses';
 import { noTypeAssertion } from './no-type-assertion';
+import { urlParamsMustEncode } from './url-params-must-encode';
 
 export const rules: Record<string, RuleFunction> = {
   'no-relative-paths': noRelativePaths,
@@ -67,4 +68,5 @@ export const rules: Record<string, RuleFunction> = {
   'transition-prefer-blank-stack': transitionPreferBlankStack,
   'prefer-guard-clauses': preferGuardClauses,
   'no-type-assertion': noTypeAssertion,
+  'url-params-must-encode': urlParamsMustEncode,
 };

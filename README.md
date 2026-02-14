@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (33 total)
+## Available Rules (34 total)
 
 ### Expo Router Rules
 
@@ -157,6 +157,12 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | `no-require-statements`      | error    | Use ES imports, not CommonJS require                          |
 | `no-response-json-lowercase` | warning  | Use Response.json() instead of new Response(JSON.stringify()) |
 | `sql-no-nested-calls`        | error    | Don't nest sql template tags                                  |
+
+### Error Handling Rules
+
+| Rule                     | Severity | Description                                                    |
+| ------------------------ | -------- | -------------------------------------------------------------- |
+| `url-params-must-encode` | warning  | URL query param values must be wrapped in encodeURIComponent() |
 
 ### Code Style Rules
 
@@ -418,6 +424,16 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `url-params-must-encode`
+
+```typescript
+// Bad - unencoded query param
+const url = `https://api.example.com?q=${query}`;
+
+// Good - encoded query param
+const url = `https://api.example.com?q=${encodeURIComponent(query)}`;
 ```
 
 ---
