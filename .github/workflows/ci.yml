@@ -91,6 +91,27 @@ jobs:
       - name: Prettier
         run: npx prettier --check .
 
+  readme-rules:
+    name: README rule docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Every rule must be documented in README
+        run: |
+          missing=0
+          for rule in $(grep -oE "'[a-z][a-z0-9-]+'" src/rules/index.ts | tr -d "'"); do
+            if ! grep -q "\`$rule\`" README.md; then
+              echo "::error::Rule '$rule' is not documented in README.md"
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then
+            exit 1
+          fi
+          echo "All rules are documented in README.md"
+
   knip:
     name: Unused dependencies
     runs-on: ubuntu-latest
