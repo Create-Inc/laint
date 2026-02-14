@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (33 total)
+## Available Rules (34 total)
 
 ### Expo Router Rules
 
@@ -164,6 +164,7 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | ---------------------- | -------- | --------------------------------------------------------- |
 | `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
 | `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| `no-new-error-in-err`  | warning  | Don't construct Error objects inside neverthrow err()     |
 
 ### General Rules
 
@@ -418,6 +419,19 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-new-error-in-err`
+
+```typescript
+// Bad - constructing Error inside neverthrow err()
+return err(new Error('Failed to detect pull request', { cause: error }));
+
+// Good - use a plain object
+return err({ message: 'Failed to detect pull request', cause: error });
+
+// Good - use a string
+return err('Failed to detect pull request');
 ```
 
 ---
