@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 41 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 42 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -88,7 +88,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 40 rules
+// Run all 42 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (41 total)
+## Available Rules (42 total)
 
 ### Expo Router Rules
 
@@ -184,6 +184,12 @@ const backendRules = getRulesForPlatform('backend');
 | `no-require-statements`      | error    | backend  | Use ES imports, not CommonJS require                          |
 | `no-response-json-lowercase` | warning  | backend  | Use Response.json() instead of new Response(JSON.stringify()) |
 | `sql-no-nested-calls`        | error    | backend  | Don't nest sql template tags                                  |
+
+### URL Rules
+
+| Rule                     | Severity | Description                                                    |
+| ------------------------ | -------- | -------------------------------------------------------------- |
+| `url-params-must-encode` | warning  | URL query param values must be wrapped in encodeURIComponent() |
 
 ### Error Handling Rules
 
@@ -457,6 +463,16 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `url-params-must-encode`
+
+```typescript
+// Bad - unencoded query param
+const url = `https://api.example.com?q=${query}`;
+
+// Good - encoded query param
+const url = `https://api.example.com?q=${encodeURIComponent(query)}`;
 ```
 
 ### `catch-must-log-to-sentry`
