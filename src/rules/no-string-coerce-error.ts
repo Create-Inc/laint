@@ -59,7 +59,7 @@ export function noStringCoerceError(ast: File, _code: string): LintResult[] {
       if (stringCall) {
         results.push({
           rule: RULE_NAME,
-          message: `String(${errorName}) produces '[object Object]' for non-Error objects. Use JSON.stringify(${errorName}) instead.`,
+          message: `String(${errorName}) may produce '[object Object]' for non-Error objects. Consider JSON.stringify(${errorName}) to preserve structure.`,
           line: stringCall.loc?.start.line ?? path.node.loc?.start.line ?? 0,
           column: stringCall.loc?.start.column ?? path.node.loc?.start.column ?? 0,
           severity: 'warning',
