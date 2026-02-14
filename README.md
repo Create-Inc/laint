@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (33 total)
+## Available Rules (34 total)
 
 ### Expo Router Rules
 
@@ -164,6 +164,7 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | ---------------------- | -------- | --------------------------------------------------------- |
 | `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
 | `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| `no-loose-equality`    | warning  | Use === and !== instead of == and != (except == null)     |
 
 ### General Rules
 
@@ -418,6 +419,26 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-loose-equality`
+
+```typescript
+// Bad - loose equality
+if (a == b) {
+}
+if (x != 'hello') {
+}
+
+// Good - strict equality
+if (a === b) {
+}
+if (x !== 'hello') {
+}
+
+// OK - == null is idiomatic for null/undefined check
+if (value == null) {
+}
 ```
 
 ---
