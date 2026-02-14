@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (33 total)
+## Available Rules (34 total)
 
 ### Expo Router Rules
 
@@ -160,10 +160,11 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 
 ### Code Style Rules
 
-| Rule                   | Severity | Description                                               |
-| ---------------------- | -------- | --------------------------------------------------------- |
-| `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
-| `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| Rule                     | Severity | Description                                                      |
+| ------------------------ | -------- | ---------------------------------------------------------------- |
+| `prefer-guard-clauses`   | warning  | Use early returns instead of nesting if statements               |
+| `no-type-assertion`      | warning  | Avoid `as` type casts; use type narrowing or proper types        |
+| `no-string-coerce-error` | warning  | Use JSON.stringify instead of String() for unknown caught errors |
 
 ### General Rules
 
@@ -418,6 +419,16 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-string-coerce-error`
+
+```typescript
+// Bad - String() on a non-Error object produces '[object Object]'
+const message = error instanceof Error ? error.message : String(error);
+
+// Good - JSON.stringify preserves object structure
+const message = error instanceof Error ? error.message : JSON.stringify(error);
 ```
 
 ---
