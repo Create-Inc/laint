@@ -172,6 +172,12 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | --------------------- | -------- | --------------------------------------------- |
 | `prefer-lucide-icons` | warning  | Prefer lucide-react/lucide-react-native icons |
 
+### Agent Code Quality Rules
+
+| Rule                       | Severity | Description                                                            |
+| -------------------------- | -------- | ---------------------------------------------------------------------- |
+| `no-deprecated-react-apis` | warning  | Detect deprecated React APIs like defaultProps, propTypes, string refs |
+
 ---
 
 ## Rule Details
