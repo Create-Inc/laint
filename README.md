@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (33 total)
+## Available Rules (34 total)
 
 ### Expo Router Rules
 
@@ -160,10 +160,11 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 
 ### Code Style Rules
 
-| Rule                   | Severity | Description                                               |
-| ---------------------- | -------- | --------------------------------------------------------- |
-| `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
-| `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| Rule                   | Severity | Description                                                  |
+| ---------------------- | -------- | ------------------------------------------------------------ |
+| `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements           |
+| `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types    |
+| `no-nested-try-catch`  | warning  | Avoid nested try-catch blocks, extract to separate functions |
 
 ### General Rules
 
@@ -418,6 +419,27 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-nested-try-catch`
+
+```typescript
+// Bad - nested try-catch
+try {
+  try {
+    inner();
+  } catch (e) {}
+} catch (e) {}
+
+// Good - extract to separate function
+function safeInner() {
+  try {
+    inner();
+  } catch (e) {}
+}
+try {
+  safeInner();
+} catch (e) {}
 ```
 
 ---
