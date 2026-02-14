@@ -100,7 +100,7 @@ describe('config modes', () => {
       expect(ruleNames).toContain('no-relative-paths');
       expect(ruleNames).toContain('expo-image-import');
       expect(ruleNames).toContain('no-stylesheet-create');
-      expect(ruleNames.length).toBe(34);
+      expect(ruleNames.length).toBe(35);
     });
   });
 });
