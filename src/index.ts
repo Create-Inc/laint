@@ -1,8 +1,9 @@
 import { parseJsx } from './parser';
 import { rules } from './rules';
-import type { LintConfig, LintResult } from './types';
+import { rulePlatforms } from './rules/meta';
+import type { LintConfig, LintResult, Platform } from './types';
 
-export type { LintConfig, LintResult, RuleFunction } from './types';
+export type { LintConfig, LintResult, RuleFunction, Platform } from './types';
 
 /**
  * Get all available rule names
@@ -11,14 +12,30 @@ export function getAllRuleNames(): string[] {
   return Object.keys(rules);
 }
 
+/**
+ * Get rule names applicable to a platform.
+ * Returns platform-tagged rules + universal rules (those without a platform tag).
+ */
+export function getRulesForPlatform(platform: Platform): string[] {
+  return Object.keys(rules).filter((name) => {
+    const platforms = rulePlatforms[name];
+    // No platforms = universal, always included
+    if (!platforms) return true;
+    return platforms.includes(platform);
+  });
+}
+
 export function lintJsxCode(code: string, config: LintConfig): LintResult[] {
   const ast = parseJsx(code);
   const results: LintResult[] = [];
 
-  // Determine which rules to run based on exclude mode
+  // Determine which rules to run
   let rulesToRun: string[];
 
-  if (config.exclude) {
+  if (config.platform) {
+    // Platform mode: run rules tagged for this platform + universal rules
+    rulesToRun = getRulesForPlatform(config.platform);
+  } else if (config.exclude) {
     // Exclude mode: run all rules except those listed
     const excludeSet = new Set(config.rules);
     rulesToRun = Object.keys(rules).filter((name) => !excludeSet.has(name));

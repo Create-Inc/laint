@@ -1,5 +1,7 @@
 import type { File } from '@babel/types';
 
+export type Platform = 'expo' | 'web' | 'backend';
+
 export interface LintResult {
   rule: string;
   message: string;
@@ -21,6 +23,11 @@ export interface LintConfig {
    * @default false
    */
   exclude?: boolean;
+  /**
+   * When set, runs all rules tagged for this platform plus universal rules.
+   * Takes precedence over `rules` and `exclude`.
+   */
+  platform?: Platform;
 }
 
 export type RuleFunction = (ast: File, code: string) => LintResult[];
