@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 31 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)

@@ -37,11 +37,11 @@ export function lintJsxCode(code: string, config: LintConfig): LintResult[] {
     rulesToRun = getRulesForPlatform(config.platform);
   } else if (config.exclude) {
     // Exclude mode: run all rules except those listed
-    const excludeSet = new Set(config.rules);
+    const excludeSet = new Set(config.rules ?? []);
     rulesToRun = Object.keys(rules).filter((name) => !excludeSet.has(name));
   } else {
     // Include mode (default): only run rules that are listed
-    rulesToRun = config.rules;
+    rulesToRun = config.rules ?? [];
   }
 
   for (const ruleName of rulesToRun) {
