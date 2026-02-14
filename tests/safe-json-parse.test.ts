@@ -12,7 +12,6 @@ describe('safe-json-parse rule', () => {
     expect(results).toHaveLength(1);
     expect(results[0].rule).toBe('safe-json-parse');
     expect(results[0].message).toContain('try-catch');
-    expect(results[0].message).toContain('fast-safe-stringify');
     expect(results[0].severity).toBe('warning');
   });
 

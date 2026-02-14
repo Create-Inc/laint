@@ -37,8 +37,7 @@ export function safeJsonParse(ast: File, _code: string): LintResult[] {
       if (!isInTryCatch) {
         results.push({
           rule: RULE_NAME,
-          message:
-            'Wrap JSON.parse() in a try-catch block to handle malformed input. For JSON.stringify, consider using fast-safe-stringify to handle circular references',
+          message: 'Wrap JSON.parse() in a try-catch block to handle malformed input.',
           line: loc?.start.line ?? 0,
           column: loc?.start.column ?? 0,
           severity: 'warning',
