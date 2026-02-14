@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (33 total)
+## Available Rules (34 total)
 
 ### Expo Router Rules
 
@@ -160,10 +160,11 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 
 ### Code Style Rules
 
-| Rule                   | Severity | Description                                               |
-| ---------------------- | -------- | --------------------------------------------------------- |
-| `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
-| `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| Rule                   | Severity | Description                                                    |
+| ---------------------- | -------- | -------------------------------------------------------------- |
+| `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements             |
+| `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types      |
+| `no-magic-env-strings` | warning  | Use centralized enum for env variable names, not magic strings |
 
 ### General Rules
 
@@ -418,6 +419,17 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-magic-env-strings`
+
+```typescript
+// Bad - hardcoded env string
+const key = process.env.API_KEY;
+const url = process.env['DATABASE_URL'];
+
+// Good - use centralized enum
+const key = process.env[EnvVars.API_KEY];
 ```
 
 ---
