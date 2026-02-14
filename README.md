@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (33 total)
+## Available Rules (34 total)
 
 ### Expo Router Rules
 
@@ -157,6 +157,12 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | `no-require-statements`      | error    | Use ES imports, not CommonJS require                          |
 | `no-response-json-lowercase` | warning  | Use Response.json() instead of new Response(JSON.stringify()) |
 | `sql-no-nested-calls`        | error    | Don't nest sql template tags                                  |
+
+### Error Handling Rules
+
+| Rule                       | Severity | Description                                                        |
+| -------------------------- | -------- | ------------------------------------------------------------------ |
+| `catch-must-log-to-sentry` | warning  | Catch blocks with logger.error/console.error must also call Sentry |
 
 ### Code Style Rules
 
@@ -418,6 +424,25 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `catch-must-log-to-sentry`
+
+```typescript
+// Bad - logs error but no Sentry
+try {
+  fetchData();
+} catch (error) {
+  logger.error('Failed', error);
+}
+
+// Good - both logging and Sentry
+try {
+  fetchData();
+} catch (error) {
+  logger.error('Failed', error);
+  Sentry.captureException(error);
+}
 ```
 
 ---
