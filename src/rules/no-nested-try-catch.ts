@@ -24,7 +24,7 @@ export function noNestedTryCatch(ast: File, _code: string): LintResult[] {
           });
           break;
         }
-        parent = parent.parentPath;
+        parent = parent.parentPath as typeof parent;
       }
     },
   });
