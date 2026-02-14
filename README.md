@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 43 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 44 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -88,7 +88,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 43 rules
+// Run all 44 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (43 total)
+## Available Rules (44 total)
 
 ### Expo Router Rules
 
@@ -203,6 +203,7 @@ const backendRules = getRulesForPlatform('backend');
 | ------------------------ | -------- | --------- | ---------------------------------------------------------------- |
 | `prefer-guard-clauses`   | warning  | universal | Use early returns instead of nesting if statements               |
 | `no-type-assertion`      | warning  | universal | Avoid `as` type casts; use type narrowing or proper types        |
+| `no-loose-equality`      | warning  | universal | Use === and !== instead of == and != (except == null)            |
 | `no-magic-env-strings`   | warning  | universal | Use centralized enum for env variable names, not magic strings   |
 | `no-nested-try-catch`    | warning  | universal | Avoid nested try-catch blocks, extract to separate functions     |
 | `no-string-coerce-error` | warning  | universal | Use JSON.stringify instead of String() for unknown caught errors |
@@ -464,6 +465,26 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-loose-equality`
+
+```typescript
+// Bad - loose equality
+if (a == b) {
+}
+if (x != 'hello') {
+}
+
+// Good - strict equality
+if (a === b) {
+}
+if (x !== 'hello') {
+}
+
+// OK - == null is idiomatic for null/undefined check
+if (value == null) {
+}
 ```
 
 ### `no-magic-env-strings`

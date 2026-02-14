@@ -124,7 +124,7 @@ describe('config modes', () => {
       expect(ruleNames).toContain('expo-image-import');
       expect(ruleNames).toContain('no-stylesheet-create');
 
-      expect(ruleNames.length).toBe(43);
+      expect(ruleNames.length).toBe(44);
     });
   });
 });
