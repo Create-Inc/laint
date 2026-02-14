@@ -9,7 +9,7 @@ export function noNestedTryCatch(ast: File, _code: string): LintResult[] {
 
   traverse(ast, {
     TryStatement(path) {
-      // Check if any ancestor is also a TryStatement's block
+      // Check if any ancestor is a TryStatement
       let parent = path.parentPath;
       while (parent) {
         if (parent.isTryStatement()) {
