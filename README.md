@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 44 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 45 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -88,7 +88,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 44 rules
+// Run all 45 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (44 total)
+## Available Rules (45 total)
 
 ### Expo Router Rules
 
@@ -203,6 +203,7 @@ const backendRules = getRulesForPlatform('backend');
 | ------------------------ | -------- | --------- | ---------------------------------------------------------------- |
 | `prefer-guard-clauses`   | warning  | universal | Use early returns instead of nesting if statements               |
 | `no-type-assertion`      | warning  | universal | Avoid `as` type casts; use type narrowing or proper types        |
+| `safe-json-parse`        | warning  | universal | Wrap JSON.parse in try-catch to handle malformed input           |
 | `no-loose-equality`      | warning  | universal | Use === and !== instead of == and != (except == null)            |
 | `no-magic-env-strings`   | warning  | universal | Use centralized enum for env variable names, not magic strings   |
 | `no-nested-try-catch`    | warning  | universal | Avoid nested try-catch blocks, extract to separate functions     |
@@ -629,6 +630,26 @@ const result = await retry(
   },
   { retries: 15, minTimeout: 2000 },
 );
+```
+
+---
+
+### `safe-json-parse`
+
+```typescript
+// Bad - JSON.parse without error handling
+const data = JSON.parse(rawInput);
+
+// Good - wrapped in try-catch
+try {
+  const data = JSON.parse(rawInput);
+} catch (e) {
+  console.error('Failed to parse JSON', e);
+}
+
+// For JSON.stringify with circular references, consider using fast-safe-stringify
+// import stringify from "fast-safe-stringify";
+// const str = stringify(circularObj);
 ```
 
 ---
