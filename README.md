@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 36 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 37 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -81,7 +81,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 36 rules
+// Run all 37 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (36 total)
+## Available Rules (37 total)
 
 ### Expo Router Rules
 
@@ -160,13 +160,14 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 
 ### Code Style Rules
 
-| Rule                   | Severity | Description                                               |
-| ---------------------- | -------- | --------------------------------------------------------- |
-| `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
-| `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
-| `no-optional-props`    | warning  | Use `prop: T \| null` instead of `prop?: T` in interfaces |
-| `no-silent-skip`       | warning  | Add else branch with logging instead of silently skipping |
-| `no-manual-retry-loop` | warning  | Use a retry library instead of manual retry/polling loops |
+| Rule                    | Severity | Description                                                 |
+| ----------------------- | -------- | ----------------------------------------------------------- |
+| `prefer-guard-clauses`  | warning  | Use early returns instead of nesting if statements          |
+| `no-type-assertion`     | warning  | Avoid `as` type casts; use type narrowing or proper types   |
+| `logger-error-with-err` | warning  | logger.error() must include { err: Error } for stack traces |
+| `no-optional-props`     | warning  | Use `prop: T \| null` instead of `prop?: T` in interfaces   |
+| `no-silent-skip`        | warning  | Add else branch with logging instead of silently skipping   |
+| `no-manual-retry-loop`  | warning  | Use a retry library instead of manual retry/polling loops   |
 
 ### General Rules
 
@@ -421,6 +422,19 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `logger-error-with-err`
+
+```typescript
+// Bad - missing err property
+logger.error({}, 'something failed');
+logger.error({ userId: 1 }, 'request failed');
+logger.error('something went wrong');
+
+// Good - includes err for stack traces
+logger.error({ err: error }, 'something failed');
+logger.error({ err: new Error('x'), userId: 1 }, 'request failed');
 ```
 
 ### `no-silent-skip`
