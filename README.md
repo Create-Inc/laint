@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 42 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 43 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -88,7 +88,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 42 rules
+// Run all 43 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (42 total)
+## Available Rules (43 total)
 
 ### Expo Router Rules
 
@@ -203,6 +203,7 @@ const backendRules = getRulesForPlatform('backend');
 | ------------------------ | -------- | --------- | ---------------------------------------------------------------- |
 | `prefer-guard-clauses`   | warning  | universal | Use early returns instead of nesting if statements               |
 | `no-type-assertion`      | warning  | universal | Avoid `as` type casts; use type narrowing or proper types        |
+| `no-magic-env-strings`   | warning  | universal | Use centralized enum for env variable names, not magic strings   |
 | `no-nested-try-catch`    | warning  | universal | Avoid nested try-catch blocks, extract to separate functions     |
 | `no-string-coerce-error` | warning  | universal | Use JSON.stringify instead of String() for unknown caught errors |
 | `logger-error-with-err`  | warning  | universal | logger.error() must include { err: Error } for stack traces      |
@@ -465,6 +466,16 @@ if (typeof data === 'string') {
 const user: User = response.data;
 ```
 
+### `no-magic-env-strings`
+
+````typescript
+// Bad - hardcoded env string
+const key = process.env.API_KEY;
+const url = process.env['DATABASE_URL'];
+
+// Good - use centralized enum
+const key = process.env[EnvVars.API_KEY];
+
 ### `url-params-must-encode`
 
 ```typescript
@@ -473,7 +484,7 @@ const url = `https://api.example.com?q=${query}`;
 
 // Good - encoded query param
 const url = `https://api.example.com?q=${encodeURIComponent(query)}`;
-```
+````
 
 ### `catch-must-log-to-sentry`
 
