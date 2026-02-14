@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (33 total)
+## Available Rules (34 total)
 
 ### Expo Router Rules
 
@@ -149,6 +149,7 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | Rule                            | Severity | Description                                            |
 | ------------------------------- | -------- | ------------------------------------------------------ |
 | `no-tailwind-animation-classes` | warning  | Avoid animate-\* classes, use style jsx global instead |
+| `no-inline-styles`              | warning  | Avoid inline styles, use Tailwind CSS classes instead  |
 
 ### Backend / SQL Rules
 
@@ -418,6 +419,16 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-inline-styles`
+
+```tsx
+// Bad - inline style objects
+<div style={{ color: 'red', fontSize: 16 }}>Hello</div>
+
+// Good - Tailwind CSS classes
+<div className="text-red-500 text-base">Hello</div>
 ```
 
 ---
