@@ -14,7 +14,7 @@ This writes a `.claude/settings.json` with a `PostToolUse` hook that runs after 
 
 ### Configuring Rules
 
-By default, all 31 rules run. To customize, create a `laint.config.json` in your project root:
+By default, all 35 rules run. To customize, create a `laint.config.json` in your project root:
 
 ```json
 // Only run these specific rules (include mode)
@@ -81,7 +81,7 @@ const results = lintJsxCode(code, {
   exclude: true,
 });
 
-// Run all 31 rules
+// Run all 35 rules
 const allResults = lintJsxCode(code, {
   rules: [],
   exclude: true,
@@ -91,7 +91,7 @@ const allResults = lintJsxCode(code, {
 const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import', ...]
 ```
 
-## Available Rules (33 total)
+## Available Rules (35 total)
 
 ### Expo Router Rules
 
@@ -164,6 +164,7 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 | ---------------------- | -------- | --------------------------------------------------------- |
 | `prefer-guard-clauses` | warning  | Use early returns instead of nesting if statements        |
 | `no-type-assertion`    | warning  | Avoid `as` type casts; use type narrowing or proper types |
+| `no-silent-skip`       | warning  | Add else branch with logging instead of silently skipping |
 | `no-manual-retry-loop` | warning  | Use a retry library instead of manual retry/polling loops |
 
 ### General Rules
@@ -419,6 +420,35 @@ if (typeof data === 'string') {
 
 // Good - proper typing
 const user: User = response.data;
+```
+
+### `no-silent-skip`
+
+```typescript
+// Bad - silently skips when user is falsy
+function process(user) {
+  if (user) {
+    sendEmail(user);
+    updateDb(user);
+  }
+}
+
+// Good - logs why the else case was skipped
+function process(user) {
+  if (user) {
+    sendEmail(user);
+    updateDb(user);
+  } else {
+    logger.warn('No user provided, skipping processing');
+  }
+}
+
+// Also fine - guard clause with early return
+function process(user) {
+  if (!user) return;
+  sendEmail(user);
+  updateDb(user);
+}
 ```
 
 ### `no-manual-retry-loop`
