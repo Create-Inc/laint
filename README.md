@@ -438,7 +438,7 @@ function process(user) {
     sendEmail(user);
     updateDb(user);
   } else {
-    logger.warn("No user provided, skipping processing");
+    logger.warn('No user provided, skipping processing');
   }
 }
 
