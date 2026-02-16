@@ -45,6 +45,7 @@ import { noOptionalProps } from './no-optional-props';
 import { noSilentSkip } from './no-silent-skip';
 import { noManualRetryLoop } from './no-manual-retry-loop';
 import { noEmojiIcons } from './no-emoji-icons';
+import { noSyncFs } from './no-sync-fs';
 
 export const rules: Record<string, RuleFunction> = {
   'no-relative-paths': noRelativePaths,
@@ -93,4 +94,5 @@ export const rules: Record<string, RuleFunction> = {
   'no-silent-skip': noSilentSkip,
   'no-manual-retry-loop': noManualRetryLoop,
   'no-emoji-icons': noEmojiIcons,
+  'no-sync-fs': noSyncFs,
 };
