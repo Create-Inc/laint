@@ -39,10 +39,7 @@ export function noSyncFs(ast: File, _code: string): LintResult[] {
           }
         }
         // import fs from 'fs' or import * as fs from 'fs'
-        if (
-          t.isImportDefaultSpecifier(specifier) ||
-          t.isImportNamespaceSpecifier(specifier)
-        ) {
+        if (t.isImportDefaultSpecifier(specifier) || t.isImportNamespaceSpecifier(specifier)) {
           fsImportedNames.add(specifier.local.name);
         }
       }
@@ -57,9 +54,7 @@ export function noSyncFs(ast: File, _code: string): LintResult[] {
         t.isIdentifier(callee.property) &&
         isSyncMethod(callee.property.name)
       ) {
-        const objectName = t.isIdentifier(callee.object)
-          ? callee.object.name
-          : null;
+        const objectName = t.isIdentifier(callee.object) ? callee.object.name : null;
 
         // Only flag if the object is a known fs import or literally named 'fs'
         if (objectName === 'fs' || fsImportedNames.has(objectName ?? '')) {
@@ -75,11 +70,7 @@ export function noSyncFs(ast: File, _code: string): LintResult[] {
       }
 
       // Pattern 2: readFileSync(...) — direct import from 'fs'
-      if (
-        t.isIdentifier(callee) &&
-        isSyncMethod(callee.name) &&
-        fsImportedNames.has(callee.name)
-      ) {
+      if (t.isIdentifier(callee) && isSyncMethod(callee.name) && fsImportedNames.has(callee.name)) {
         const method = callee.name;
         results.push({
           rule: RULE_NAME,
