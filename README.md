@@ -214,6 +214,7 @@ const backendRules = getRulesForPlatform('backend');
 | `no-silent-skip`         | warning  | universal | Add else branch with logging instead of silently skipping        |
 | `no-manual-retry-loop`   | warning  | universal | Use a retry library instead of manual retry/polling loops        |
 | `no-emoji-icons`         | warning  | universal | Use icons from lucide-react instead of emoji characters          |
+| `prefer-named-params`   | warning  | universal | Use object destructuring instead of positional parameters        |
 
 ### General Rules
 
@@ -701,6 +702,23 @@ const data = await readFile('file.txt', 'utf-8');
 await writeFile('output.txt', data);
 ```
 
+### `prefer-named-params`
+
+```typescript
+// Bad - positional parameters
+function createUser(name: string, email: string, age: number) {
+  return { name, email, age };
+}
+
+// Good - named parameters via object destructuring
+function createUser({ name, email, age }: { name: string; email: string; age: number }) {
+  return { name, email, age };
+}
+```
+
+Callbacks (`.map`, `.filter`, `.reduce`, `.sort`, `.then`, etc.) and `React.forwardRef`/`memo` are excluded.
+
+---
 ## Adding a New Rule
 
 1. Create a rule file in `src/rules/`:

@@ -1,75 +1,36 @@
 import traverse from '@babel/traverse';
+import type { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 import type { File } from '@babel/types';
 import type { LintResult } from '../types';
 
 const RULE_NAME = 'prefer-named-params';
 
-// Callback-style methods where positional params are natural
-const CALLBACK_METHODS = new Set([
-  'map',
-  'forEach',
-  'filter',
-  'find',
-  'findIndex',
-  'some',
-  'every',
-  'reduce',
-  'reduceRight',
-  'flatMap',
-  'sort',
-  'then',
-  'catch',
-  'on',
-  'once',
-  'addEventListener',
-  'removeEventListener',
-  'subscribe',
-  'pipe',
-  'use',
-]);
-
-function isCallbackArg(path: traverse.NodePath<t.Function>): boolean {
-  const parent = path.parent;
-
-  // fn passed as argument to a function call: foo((a, b) => ...)
-  if (t.isCallExpression(parent)) {
-    return true;
-  }
-
-  // fn passed as argument to a method call: arr.map((item, index) => ...)
-  if (
-    t.isCallExpression(parent) &&
-    t.isMemberExpression(parent.callee) &&
-    t.isIdentifier(parent.callee.property) &&
-    CALLBACK_METHODS.has(parent.callee.property.name)
-  ) {
-    return true;
-  }
-
-  return false;
+function isCallbackArg(path: NodePath<t.Function>): boolean {
+  // Any function passed as an argument to a call is a callback
+  return t.isCallExpression(path.parent);
 }
 
-function isReactComponent(path: traverse.NodePath<t.Function>): boolean {
-  // React components have (props) or () — single param at most
-  // But check for forwardRef((props, ref) => ...) pattern
+function isReactComponent(path: NodePath<t.Function>): boolean {
   const parent = path.parent;
+  if (!t.isCallExpression(parent)) return false;
+
+  const callee = parent.callee;
+
+  // forwardRef((props, ref) => ...) or memo((props, prevProps) => ...)
+  if (t.isIdentifier(callee) && (callee.name === 'forwardRef' || callee.name === 'memo')) {
+    return true;
+  }
+
+  // React.forwardRef(...) or React.memo(...)
   if (
-    t.isCallExpression(parent) &&
-    t.isIdentifier(parent.callee) &&
-    (parent.callee.name === 'forwardRef' || parent.callee.name === 'memo')
+    t.isMemberExpression(callee) &&
+    t.isIdentifier(callee.property) &&
+    (callee.property.name === 'forwardRef' || callee.property.name === 'memo')
   ) {
     return true;
   }
-  if (
-    t.isCallExpression(parent) &&
-    t.isMemberExpression(parent.callee) &&
-    t.isIdentifier(parent.callee.property) &&
-    (parent.callee.property.name === 'forwardRef' ||
-      parent.callee.property.name === 'memo')
-  ) {
-    return true;
-  }
+
   return false;
 }
 
@@ -77,9 +38,7 @@ export function preferNamedParams(ast: File, _code: string): LintResult[] {
   const results: LintResult[] = [];
 
   traverse(ast, {
-    'FunctionDeclaration|FunctionExpression|ArrowFunctionExpression'(
-      path: traverse.NodePath<t.Function>,
-    ) {
+    'FunctionDeclaration|FunctionExpression|ArrowFunctionExpression'(path: NodePath<t.Function>) {
       const { params, loc } = path.node;
 
       // Only flag when there are 2+ params
