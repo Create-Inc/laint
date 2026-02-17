@@ -123,8 +123,7 @@ describe('config modes', () => {
       expect(ruleNames).toContain('no-relative-paths');
       expect(ruleNames).toContain('expo-image-import');
       expect(ruleNames).toContain('no-stylesheet-create');
-
-      expect(ruleNames.length).toBe(44);
+      expect(ruleNames.length).toBe(45);
     });
   });
 });
