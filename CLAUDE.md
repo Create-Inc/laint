@@ -17,6 +17,7 @@ laint is an AI Agent Lint Rules SDK — a programmatic API for linting JSX/TSX c
 - `src/parser.ts` — Babel parser wrapper (JSX + TypeScript)
 - `src/index.ts` — main API: `lintJsxCode()`, `getAllRuleNames()`
 - `src/rules/` — individual lint rules, each a `RuleFunction(ast, code) => LintResult[]`
+- `src/types.ts` — type definitions (`RuleFunction`, `LintResult`, etc.)
 - `src/rules/index.ts` — rule registry (maps rule names to functions)
 - `src/cli.ts` — CLI entry point (`laint init`, `laint check`)
 - `src/cli/check.ts` — file mode and hook mode linting
@@ -28,7 +29,8 @@ laint is an AI Agent Lint Rules SDK — a programmatic API for linting JSX/TSX c
 2. Register it in `src/rules/index.ts`
 3. Create `tests/my-rule.test.ts`
 4. **Update the rule count assertion in `tests/config-modes.test.ts`** — the `getAllRuleNames` test has `expect(ruleNames.length).toBe(...)` that must match the total number of registered rules
-5. Run `npm test` to verify
+5. **Document the rule in `README.md`** — CI checks that every registered rule name appears in the README
+6. Run `npm test` to verify
 
 ## Code style
 
