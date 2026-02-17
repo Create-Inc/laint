@@ -45,6 +45,7 @@ export const rulePlatforms: Partial<Record<string, Platform[]>> = {
   'no-require-statements': ['backend'],
   'no-response-json-lowercase': ['backend'],
   'sql-no-nested-calls': ['backend'],
+  'no-sync-fs': ['backend'],
 
   // Universal rules (NOT listed here): prefer-guard-clauses, no-type-assertion,
   // no-string-coerce-error
