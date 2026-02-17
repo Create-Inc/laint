@@ -211,7 +211,7 @@ const backendRules = getRulesForPlatform('backend');
 | `no-optional-props`      | warning  | universal | Use `prop: T \| null` instead of `prop?: T` in interfaces        |
 | `no-silent-skip`         | warning  | universal | Add else branch with logging instead of silently skipping        |
 | `no-manual-retry-loop`   | warning  | universal | Use a retry library instead of manual retry/polling loops        |
-| `prefer-named-params`   | warning  | universal | Use object destructuring instead of positional parameters        |
+| `prefer-named-params`    | warning  | universal | Use object destructuring instead of positional parameters        |
 
 ### General Rules
 
