@@ -214,7 +214,7 @@ const backendRules = getRulesForPlatform('backend');
 | `no-silent-skip`         | warning  | universal | Add else branch with logging instead of silently skipping        |
 | `no-manual-retry-loop`   | warning  | universal | Use a retry library instead of manual retry/polling loops        |
 | `no-emoji-icons`         | warning  | universal | Use icons from lucide-react instead of emoji characters          |
-| `prefer-named-params`   | warning  | universal | Use object destructuring instead of positional parameters        |
+| `prefer-named-params`    | warning  | universal | Use object destructuring instead of positional parameters        |
 
 ### General Rules
 
