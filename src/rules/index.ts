@@ -43,6 +43,7 @@ import { loggerErrorWithErr } from './logger-error-with-err';
 import { noOptionalProps } from './no-optional-props';
 import { noSilentSkip } from './no-silent-skip';
 import { noManualRetryLoop } from './no-manual-retry-loop';
+import { preferNamedParams } from './prefer-named-params';
 
 export const rules: Record<string, RuleFunction> = {
   'no-relative-paths': noRelativePaths,
@@ -89,4 +90,5 @@ export const rules: Record<string, RuleFunction> = {
   'no-optional-props': noOptionalProps,
   'no-silent-skip': noSilentSkip,
   'no-manual-retry-loop': noManualRetryLoop,
+  'prefer-named-params': preferNamedParams,
 };
