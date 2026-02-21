@@ -44,6 +44,7 @@ import { loggerErrorWithErr } from './logger-error-with-err';
 import { noOptionalProps } from './no-optional-props';
 import { noSilentSkip } from './no-silent-skip';
 import { noManualRetryLoop } from './no-manual-retry-loop';
+import { noEmojiIcons } from './no-emoji-icons';
 
 export const rules: Record<string, RuleFunction> = {
   'no-relative-paths': noRelativePaths,
@@ -91,4 +92,5 @@ export const rules: Record<string, RuleFunction> = {
   'no-optional-props': noOptionalProps,
   'no-silent-skip': noSilentSkip,
   'no-manual-retry-loop': noManualRetryLoop,
+  'no-emoji-icons': noEmojiIcons,
 };
