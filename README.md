@@ -212,6 +212,7 @@ const backendRules = getRulesForPlatform('backend');
 | `no-optional-props`      | warning  | universal | Use `prop: T \| null` instead of `prop?: T` in interfaces        |
 | `no-silent-skip`         | warning  | universal | Add else branch with logging instead of silently skipping        |
 | `no-manual-retry-loop`   | warning  | universal | Use a retry library instead of manual retry/polling loops        |
+| `no-emoji-icons`         | warning  | universal | Use icons from lucide-react instead of emoji characters          |
 
 ### General Rules
 
@@ -630,6 +631,21 @@ const result = await retry(
   },
   { retries: 15, minTimeout: 2000 },
 );
+```
+
+---
+
+### `no-emoji-icons`
+
+```typescript
+// Bad - emoji characters as icons
+<Text>✅ Done</Text>
+<Button label="🔥 Hot" />
+
+// Good - use icon library
+import { Check, Flame } from 'lucide-react';
+<Text><Check /> Done</Text>
+<Button label={<><Flame /> Hot</>} />
 ```
 
 ---
