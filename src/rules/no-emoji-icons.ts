@@ -11,33 +11,31 @@ const EMOJI_REGEX =
 const MESSAGE =
   "Use icons from 'lucide-react' or 'lucide-react-native' instead of emoji characters";
 
+function checkNode(
+  node: { value: string; loc?: { start: { line: number; column: number } } | null },
+  results: LintResult[],
+) {
+  if (EMOJI_REGEX.test(node.value)) {
+    const { loc } = node;
+    results.push({
+      rule: RULE_NAME,
+      message: MESSAGE,
+      line: loc?.start.line ?? 0,
+      column: loc?.start.column ?? 0,
+      severity: 'warning',
+    });
+  }
+}
+
 export function noEmojiIcons(ast: File, _code: string): LintResult[] {
   const results: LintResult[] = [];
 
   traverse(ast, {
     StringLiteral(path) {
-      if (EMOJI_REGEX.test(path.node.value)) {
-        const { loc } = path.node;
-        results.push({
-          rule: RULE_NAME,
-          message: MESSAGE,
-          line: loc?.start.line ?? 0,
-          column: loc?.start.column ?? 0,
-          severity: 'warning',
-        });
-      }
+      checkNode(path.node, results);
     },
     JSXText(path) {
-      if (EMOJI_REGEX.test(path.node.value)) {
-        const { loc } = path.node;
-        results.push({
-          rule: RULE_NAME,
-          message: MESSAGE,
-          line: loc?.start.line ?? 0,
-          column: loc?.start.column ?? 0,
-          severity: 'warning',
-        });
-      }
+      checkNode(path.node, results);
     },
   });
 
