@@ -184,6 +184,7 @@ const backendRules = getRulesForPlatform('backend');
 | `no-require-statements`      | error    | backend  | Use ES imports, not CommonJS require                          |
 | `no-response-json-lowercase` | warning  | backend  | Use Response.json() instead of new Response(JSON.stringify()) |
 | `sql-no-nested-calls`        | error    | backend  | Don't nest sql template tags                                  |
+| `no-sync-fs`                 | error    | backend  | Use fs.promises or fs/promises instead of sync fs methods     |
 
 ### URL Rules
 
@@ -684,6 +685,20 @@ interface UserProps {
   name: string | null;
   age: number | null;
 }
+```
+
+### `no-sync-fs`
+
+```typescript
+// Bad - synchronous fs methods block the event loop
+import fs from 'fs';
+const data = fs.readFileSync('file.txt', 'utf-8');
+fs.writeFileSync('output.txt', data);
+
+// Good - use async fs methods
+import { readFile, writeFile } from 'fs/promises';
+const data = await readFile('file.txt', 'utf-8');
+await writeFile('output.txt', data);
 ```
 
 ## Adding a New Rule
