@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (45 total)
+## Available Rules (50 total)
 
 ### Expo Router Rules
 
@@ -148,6 +148,13 @@ const backendRules = getRulesForPlatform('backend');
 | `glass-needs-fallback`       | warning  | expo     | Check isLiquidGlassAvailable() before using GlassView |
 | `glass-interactive-prop`     | warning  | expo     | GlassView in pressables needs `isInteractive={true}`  |
 | `glass-no-opacity-animation` | warning  | expo     | No opacity animations on GlassView                    |
+
+### Next.js Rules
+
+| Rule                         | Severity | Platform | Description                                                       |
+| ---------------------------- | -------- | -------- | ----------------------------------------------------------------- |
+| `require-use-client`         | error    | web      | Files using client-only features must have "use client" directive |
+| `no-server-import-in-client` | error    | web      | "use client" files must not import server-only modules            |
 
 ### React / JSX Rules
 
@@ -318,6 +325,49 @@ When using NativeTabs from expo-router/unstable-native-tabs, each screen needs 6
 
 // Good - use transform animations instead
 <GlassView style={{ transform: [{ scale: scaleAnim }] }} />
+```
+
+### `require-use-client`
+
+```tsx
+// Bad - uses hooks without "use client"
+import { useState } from 'react';
+
+export function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+// Good - has "use client" directive
+('use client');
+
+import { useState } from 'react';
+
+export function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+```
+
+### `no-server-import-in-client`
+
+```tsx
+// Bad - server-only module in client file
+'use client';
+
+import { cookies } from 'next/headers';
+
+export function UserMenu() {
+  return <div>Menu</div>;
+}
+
+// Good - use server-only modules only in server components
+import { cookies } from 'next/headers';
+
+export function UserMenu() {
+  const session = cookies().get('session');
+  return <div>Menu</div>;
+}
 ```
 
 ### `no-complex-jsx-expressions`

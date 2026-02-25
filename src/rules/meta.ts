@@ -30,6 +30,8 @@ export const rulePlatforms: Partial<Record<string, Platform[]>> = {
   'no-inline-script-code': ['web'],
   'browser-api-in-useeffect': ['web'],
   'no-tailwind-animation-classes': ['web'],
+  'require-use-client': ['web'],
+  'no-server-import-in-client': ['web'],
 
   // Expo + Web (shared frontend)
   'no-relative-paths': ['expo', 'web'],
