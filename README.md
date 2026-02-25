@@ -719,6 +719,7 @@ function createUser({ name, email, age }: { name: string; email: string; age: nu
 Callbacks (`.map`, `.filter`, `.reduce`, `.sort`, `.then`, etc.) and `React.forwardRef`/`memo` are excluded.
 
 ---
+
 ## Adding a New Rule
 
 1. Create a rule file in `src/rules/`:
