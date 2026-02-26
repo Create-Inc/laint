@@ -47,6 +47,8 @@ import { noManualRetryLoop } from './no-manual-retry-loop';
 import { noEmojiIcons } from './no-emoji-icons';
 import { noSyncFs } from './no-sync-fs';
 import { preferNamedParams } from './prefer-named-params';
+import { requireUseClient } from './require-use-client';
+import { noServerImportInClient } from './no-server-import-in-client';
 
 export const rules: Record<string, RuleFunction> = {
   'no-relative-paths': noRelativePaths,
@@ -97,4 +99,6 @@ export const rules: Record<string, RuleFunction> = {
   'no-emoji-icons': noEmojiIcons,
   'no-sync-fs': noSyncFs,
   'prefer-named-params': preferNamedParams,
+  'require-use-client': requireUseClient,
+  'no-server-import-in-client': noServerImportInClient,
 };
