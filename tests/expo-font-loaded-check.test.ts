@@ -54,6 +54,35 @@ describe('expo-font-loaded-check rule', () => {
     expect(results).toHaveLength(0);
   });
 
+  it('should allow useFonts with custom variable name for loaded state', () => {
+    const code = `
+      function Component() {
+        const [fontsLoaded, fontError] = useFonts({
+          Inter_400Regular,
+          Inter_600SemiBold,
+          Inter_700Bold,
+        });
+        if (!fontsLoaded && !fontError) {
+          return null;
+        }
+        return <Text style={{ fontFamily: 'Inter_400Regular' }}>Hello</Text>;
+      }
+    `;
+    const results = lintJsxCode(code, config);
+    expect(results).toHaveLength(0);
+  });
+
+  it('should detect useFonts with custom variable name but no check', () => {
+    const code = `
+      function Component() {
+        const [fontsLoaded, fontError] = useFonts({ Inter_400Regular });
+        return <Text>Hello</Text>;
+      }
+    `;
+    const results = lintJsxCode(code, config);
+    expect(results).toHaveLength(1);
+  });
+
   it('should detect useFonts with incorrect check', () => {
     const code = `
       function Component() {
