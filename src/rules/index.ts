@@ -49,6 +49,7 @@ import { noSyncFs } from './no-sync-fs';
 import { preferNamedParams } from './prefer-named-params';
 import { requireUseClient } from './require-use-client';
 import { noServerImportInClient } from './no-server-import-in-client';
+import { noReactNativeInWeb } from './no-react-native-in-web';
 
 export const rules: Record<string, RuleFunction> = {
   'no-relative-paths': noRelativePaths,
@@ -101,4 +102,5 @@ export const rules: Record<string, RuleFunction> = {
   'prefer-named-params': preferNamedParams,
   'require-use-client': requireUseClient,
   'no-server-import-in-client': noServerImportInClient,
+  'no-react-native-in-web': noReactNativeInWeb,
 };
