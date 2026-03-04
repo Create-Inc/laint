@@ -32,6 +32,7 @@ export const rulePlatforms: Partial<Record<string, Platform[]>> = {
   'no-tailwind-animation-classes': ['web'],
   'require-use-client': ['web'],
   'no-server-import-in-client': ['web'],
+  'no-module-level-new': ['web'],
 
   // Expo + Web (shared frontend)
   'no-relative-paths': ['expo', 'web'],
