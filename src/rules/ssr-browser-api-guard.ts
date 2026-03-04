@@ -22,9 +22,7 @@ export function ssrBrowserApiGuard(ast: File, _code: string): LintResult[] {
   const results: LintResult[] = [];
 
   // Check if file has "use client" directive
-  const hasUseClient = ast.program.directives?.some(
-    (d) => d.value.value === 'use client',
-  );
+  const hasUseClient = ast.program.directives?.some((d) => d.value.value === 'use client');
 
   // If the file has "use client", the existing browser-api-in-useeffect rule handles it.
   // This rule targets files WITHOUT "use client" that still reference browser APIs,
@@ -55,10 +53,7 @@ export function ssrBrowserApiGuard(ast: File, _code: string): LintResult[] {
       if (object.type !== 'Identifier' || !BROWSER_GLOBALS.includes(object.name)) return;
 
       // Skip `typeof window` checks themselves
-      if (
-        path.parent.type === 'UnaryExpression' &&
-        path.parent.operator === 'typeof'
-      ) {
+      if (path.parent.type === 'UnaryExpression' && path.parent.operator === 'typeof') {
         return;
       }
 
