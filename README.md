@@ -155,7 +155,7 @@ const backendRules = getRulesForPlatform('backend');
 | ---------------------------- | -------- | -------- | ----------------------------------------------------------------- |
 | `require-use-client`         | error    | web      | Files using client-only features must have "use client" directive |
 | `no-server-import-in-client` | error    | web      | "use client" files must not import server-only modules            |
-| `no-react-native-in-web`    | error    | web      | Don't import react-native in web modules (causes ESM failures)   |
+| `no-react-native-in-web`     | error    | web      | Don't import react-native in web modules (causes ESM failures)    |
 
 ### React / JSX Rules
 
