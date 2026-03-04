@@ -192,7 +192,7 @@ const backendRules = getRulesForPlatform('backend');
 | `no-response-json-lowercase` | warning  | backend  | Use Response.json() instead of new Response(JSON.stringify()) |
 | `sql-no-nested-calls`        | error    | backend  | Don't nest sql template tags                                  |
 | `no-sync-fs`                 | error    | backend  | Use fs.promises or fs/promises instead of sync fs methods     |
-| `no-deprecated-url-parse`    | warning  | backend  | Use `new URL()` instead of deprecated `url.parse()`          |
+| `no-deprecated-url-parse`    | warning  | backend  | Use `new URL()` instead of deprecated `url.parse()`           |
 
 ### URL Rules
 
