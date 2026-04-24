@@ -3,7 +3,7 @@ import * as path from 'node:path';
 import { lintJsxCode } from '../index';
 import type { LintConfig, LintResult } from '../types';
 
-const JSX_EXTENSIONS = new Set(['.jsx', '.tsx']);
+const LINT_EXTENSIONS = new Set(['.js', '.jsx', '.ts', '.tsx']);
 
 function loadConfig(): LintConfig {
   const configPath = path.resolve('laint.config.json');
@@ -55,7 +55,7 @@ async function runHookMode(): Promise<void> {
   }
 
   const ext = path.extname(filePath).toLowerCase();
-  if (!JSX_EXTENSIONS.has(ext)) {
+  if (!LINT_EXTENSIONS.has(ext)) {
     process.exit(0);
   }
 
