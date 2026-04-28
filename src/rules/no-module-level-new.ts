@@ -48,10 +48,7 @@ export function noModuleLevelNew(ast: File, _code: string): LintResult[] {
       let name: string;
       if (callee.type === 'Identifier') {
         name = callee.name;
-      } else if (
-        callee.type === 'MemberExpression' &&
-        callee.object.type === 'Identifier'
-      ) {
+      } else if (callee.type === 'MemberExpression' && callee.object.type === 'Identifier') {
         name = `${callee.object.name}.${
           callee.property.type === 'Identifier' ? callee.property.name : '...'
         }`;
