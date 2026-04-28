@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (50 total)
+## Available Rules (51 total)
 
 ### Expo Router Rules
 
@@ -186,12 +186,13 @@ const backendRules = getRulesForPlatform('backend');
 
 ### Backend / SQL Rules
 
-| Rule                         | Severity | Platform | Description                                                   |
-| ---------------------------- | -------- | -------- | ------------------------------------------------------------- |
-| `no-require-statements`      | error    | backend  | Use ES imports, not CommonJS require                          |
-| `no-response-json-lowercase` | warning  | backend  | Use Response.json() instead of new Response(JSON.stringify()) |
-| `sql-no-nested-calls`        | error    | backend  | Don't nest sql template tags                                  |
-| `no-sync-fs`                 | error    | backend  | Use fs.promises or fs/promises instead of sync fs methods     |
+| Rule                                 | Severity | Platform | Description                                                      |
+| ------------------------------------ | -------- | -------- | ---------------------------------------------------------------- |
+| `no-require-statements`              | error    | backend  | Use ES imports, not CommonJS require                             |
+| `no-response-json-lowercase`         | warning  | backend  | Use Response.json() instead of new Response(JSON.stringify())    |
+| `sql-no-nested-calls`                | error    | backend  | Don't nest sql template tags                                     |
+| `no-sync-fs`                         | error    | backend  | Use fs.promises or fs/promises instead of sync fs methods        |
+| `no-unrestricted-loop-in-serverless` | error    | backend  | Unbounded loops (while(true), for(;;)) cause serverless timeouts |
 
 ### URL Rules
 
