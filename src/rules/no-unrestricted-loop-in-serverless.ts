@@ -13,7 +13,7 @@ export function noUnrestrictedLoopInServerless(ast: File, _code: string): LintRe
       const { test, loc } = path.node;
 
       // while (true)
-      if (t.isBooleanLiteral(test) && test.value === true) {
+      if (t.isBooleanLiteral(test) && test.value) {
         if (!hasBreakOrReturn(path)) {
           results.push({
             rule: RULE_NAME,
@@ -61,7 +61,7 @@ export function noUnrestrictedLoopInServerless(ast: File, _code: string): LintRe
       }
 
       // for (; true; ) — truthy constant test with no update
-      if (!update && test && t.isBooleanLiteral(test) && test.value === true) {
+      if (!update && test && t.isBooleanLiteral(test) && test.value) {
         if (!hasBreakOrReturn(path)) {
           results.push({
             rule: RULE_NAME,
