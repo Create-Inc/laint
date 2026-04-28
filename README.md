@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (50 total)
+## Available Rules (51 total)
 
 ### Expo Router Rules
 
@@ -155,6 +155,7 @@ const backendRules = getRulesForPlatform('backend');
 | ---------------------------- | -------- | -------- | ----------------------------------------------------------------- |
 | `require-use-client`         | error    | web      | Files using client-only features must have "use client" directive |
 | `no-server-import-in-client` | error    | web      | "use client" files must not import server-only modules            |
+| `no-module-level-new`        | error    | web      | Don't use `new` at module scope (crashes during SSR)              |
 
 ### React / JSX Rules
 
