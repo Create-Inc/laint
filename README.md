@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (50 total)
+## Available Rules (51 total)
 
 ### Expo Router Rules
 
@@ -222,6 +222,7 @@ const backendRules = getRulesForPlatform('backend');
 | `no-manual-retry-loop`   | warning  | universal | Use a retry library instead of manual retry/polling loops        |
 | `no-emoji-icons`         | warning  | universal | Use icons from lucide-react instead of emoji characters          |
 | `prefer-named-params`    | warning  | universal | Use object destructuring instead of positional parameters        |
+| `prefer-promise-all`     | warning  | universal | Use Promise.all instead of sequential await in for...of loops    |
 
 ### General Rules
 
