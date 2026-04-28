@@ -41,7 +41,11 @@ export function noDeprecatedUrlParse(ast: File, _code: string): LintResult[] {
         callee.property.name === 'parse'
       ) {
         const objectName = t.isIdentifier(callee.object) ? callee.object.name : null;
-        if (objectName === 'url' || objectName === 'URL' || urlImportedNames.has(objectName ?? '')) {
+        if (
+          objectName === 'url' ||
+          objectName === 'URL' ||
+          urlImportedNames.has(objectName ?? '')
+        ) {
           results.push({
             rule: RULE_NAME,
             message: "url.parse() is deprecated. Use 'new URL(input, base)' instead",
