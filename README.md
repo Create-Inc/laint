@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (51 total)
+## Available Rules (52 total)
 
 ### Expo Router Rules
 
@@ -155,7 +155,7 @@ const backendRules = getRulesForPlatform('backend');
 | ---------------------------- | -------- | -------- | ----------------------------------------------------------------- |
 | `require-use-client`         | error    | web      | Files using client-only features must have "use client" directive |
 | `no-server-import-in-client` | error    | web      | "use client" files must not import server-only modules            |
-| `no-module-level-new`        | error    | web      | Don't use `new` at module scope (crashes during SSR)              |
+| `ssr-browser-api-guard`      | error    | web      | Browser globals in server components crash during SSR             |
 
 ### React / JSX Rules
 
@@ -229,6 +229,7 @@ const backendRules = getRulesForPlatform('backend');
 | Rule                  | Severity | Platform  | Description                                   |
 | --------------------- | -------- | --------- | --------------------------------------------- |
 | `prefer-lucide-icons` | warning  | expo, web | Prefer lucide-react/lucide-react-native icons |
+| `no-module-level-new`        | error    | web      | Don't use `new` at module scope (crashes during SSR)              |
 
 ---
 
