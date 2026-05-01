@@ -226,10 +226,10 @@ const backendRules = getRulesForPlatform('backend');
 
 ### General Rules
 
-| Rule                  | Severity | Platform  | Description                                   |
-| --------------------- | -------- | --------- | --------------------------------------------- |
-| `prefer-lucide-icons` | warning  | expo, web | Prefer lucide-react/lucide-react-native icons |
-| `no-react-native-in-web`     | error    | web      | Don't import react-native in web modules (causes ESM failures)    |
+| Rule                     | Severity | Platform  | Description                                                    |
+| ------------------------ | -------- | --------- | -------------------------------------------------------------- |
+| `prefer-lucide-icons`    | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
+| `no-react-native-in-web` | error    | web       | Don't import react-native in web modules (causes ESM failures) |
 
 ---
 
