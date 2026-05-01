@@ -117,7 +117,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (51 total)
+## Available Rules (52 total)
 
 ### Expo Router Rules
 
@@ -226,9 +226,10 @@ const backendRules = getRulesForPlatform('backend');
 
 ### General Rules
 
-| Rule                  | Severity | Platform  | Description                                   |
-| --------------------- | -------- | --------- | --------------------------------------------- |
-| `prefer-lucide-icons` | warning  | expo, web | Prefer lucide-react/lucide-react-native icons |
+| Rule                     | Severity | Platform  | Description                                                    |
+| ------------------------ | -------- | --------- | -------------------------------------------------------------- |
+| `prefer-lucide-icons`    | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
+| `no-react-native-in-web` | error    | web       | Don't import react-native in web modules (causes ESM failures) |
 
 ---
 

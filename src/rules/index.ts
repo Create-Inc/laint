@@ -50,6 +50,7 @@ import { preferNamedParams } from './prefer-named-params';
 import { requireUseClient } from './require-use-client';
 import { noServerImportInClient } from './no-server-import-in-client';
 import { ssrBrowserApiGuard } from './ssr-browser-api-guard';
+import { noReactNativeInWeb } from './no-react-native-in-web';
 
 export const rules: Record<string, RuleFunction> = {
   'no-relative-paths': noRelativePaths,
@@ -103,4 +104,5 @@ export const rules: Record<string, RuleFunction> = {
   'require-use-client': requireUseClient,
   'no-server-import-in-client': noServerImportInClient,
   'ssr-browser-api-guard': ssrBrowserApiGuard,
+  'no-react-native-in-web': noReactNativeInWeb,
 };
