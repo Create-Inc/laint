@@ -18,12 +18,17 @@ By default, all 45 rules run. To customize, create a `laint.config.json` in your
 
 ```json
 // Only run these specific rules (include mode)
-{ "rules": ["no-relative-paths", "expo-image-import", "fetch-response-ok-check"] }
+{
+  "rules": ["no-relative-paths", "expo-image-import", "fetch-response-ok-check"]
+}
 ```
 
 ```json
 // Run all rules except these (exclude mode)
-{ "rules": ["no-tailwind-animation-classes", "no-stylesheet-create"], "exclude": true }
+{
+  "rules": ["no-tailwind-animation-classes", "no-stylesheet-create"],
+  "exclude": true
+}
 ```
 
 ```json
@@ -58,7 +63,7 @@ npm install laint
 ## Programmatic Usage
 
 ```typescript
-import { lintJsxCode, getAllRuleNames } from 'laint';
+import { lintJsxCode, getAllRuleNames } from "laint";
 
 const code = `
   <Link href="./profile">Profile</Link>
@@ -67,7 +72,7 @@ const code = `
 
 // Include mode (default): only run specified rules
 const results = lintJsxCode(code, {
-  rules: ['no-relative-paths', 'no-stylesheet-create', 'expo-image-import'],
+  rules: ["no-relative-paths", "no-stylesheet-create", "expo-image-import"],
 });
 
 // results:
@@ -84,7 +89,7 @@ Run all rules except specific ones:
 ```typescript
 // Exclude mode: run ALL rules except those listed
 const results = lintJsxCode(code, {
-  rules: ['no-stylesheet-create'], // rules to skip
+  rules: ["no-stylesheet-create"], // rules to skip
   exclude: true,
 });
 
@@ -103,21 +108,21 @@ const ruleNames = getAllRuleNames(); // ['no-relative-paths', 'expo-image-import
 Run rules by platform — includes platform-tagged rules plus universal rules:
 
 ```typescript
-import { lintJsxCode, getRulesForPlatform } from 'laint';
+import { lintJsxCode, getRulesForPlatform } from "laint";
 
 // Run all rules for Expo
 const results = lintJsxCode(code, {
   rules: [],
-  platform: 'expo',
+  platform: "expo",
 });
 
 // Get rule names for a platform
-const expoRules = getRulesForPlatform('expo'); // expo-tagged + universal rules
-const webRules = getRulesForPlatform('web');
-const backendRules = getRulesForPlatform('backend');
+const expoRules = getRulesForPlatform("expo"); // expo-tagged + universal rules
+const webRules = getRulesForPlatform("web");
+const backendRules = getRulesForPlatform("backend");
 ```
 
-## Available Rules (52 total)
+## Available Rules (53 total)
 
 ### Expo Router Rules
 
@@ -226,10 +231,12 @@ const backendRules = getRulesForPlatform('backend');
 
 ### General Rules
 
-| Rule                  | Severity | Platform  | Description                                          |
-| --------------------- | -------- | --------- | ---------------------------------------------------- |
-| `prefer-lucide-icons` | warning  | expo, web | Prefer lucide-react/lucide-react-native icons        |
-| `no-module-level-new` | error    | web       | Don't use `new` at module scope (crashes during SSR) |
+| Rule                     | Severity | Platform  | Description                                                    |
+| ------------------------ | -------- | --------- | -------------------------------------------------------------- |
+| `prefer-lucide-icons`    | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
+| `no-react-native-in-web` | error    | web       | Don't import react-native in web modules (causes ESM failures) |
+| `prefer-lucide-icons`    | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
+| `no-module-level-new`    | error    | web       | Don't use `new` at module scope (crashes during SSR)           |
 
 ---
 
@@ -270,11 +277,11 @@ function Component() {
 
 ```jsx
 // Bad
-const response = await fetch('/api/data');
+const response = await fetch("/api/data");
 const data = await response.json();
 
 // Good
-const response = await fetch('/api/data');
+const response = await fetch("/api/data");
 if (!response.ok) {
   throw new Error(`HTTP ${response.status}`);
 }
@@ -333,7 +340,7 @@ When using NativeTabs from expo-router/unstable-native-tabs, each screen needs 6
 
 ```tsx
 // Bad - uses hooks without "use client"
-import { useState } from 'react';
+import { useState } from "react";
 
 export function Counter() {
   const [count, setCount] = useState(0);
@@ -341,9 +348,9 @@ export function Counter() {
 }
 
 // Good - has "use client" directive
-('use client');
+("use client");
 
-import { useState } from 'react';
+import { useState } from "react";
 
 export function Counter() {
   const [count, setCount] = useState(0);
@@ -355,19 +362,19 @@ export function Counter() {
 
 ```tsx
 // Bad - server-only module in client file
-'use client';
+"use client";
 
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 
 export function UserMenu() {
   return <div>Menu</div>;
 }
 
 // Good - use server-only modules only in server components
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 
 export function UserMenu() {
-  const session = cookies().get('session');
+  const session = cookies().get("session");
   return <div>Menu</div>;
 }
 ```
@@ -414,7 +421,7 @@ const options = {
 // Good
 const options = {
   screenStyleInterpolator: (progress) => {
-    'worklet';
+    "worklet";
     return { opacity: progress };
   },
 };
@@ -425,14 +432,14 @@ const options = {
 ```jsx
 // Bad - only covers [0, 1], missing exit phase
 screenStyleInterpolator: (progress) => {
-  'worklet';
+  "worklet";
   const opacity = interpolate(progress, [0, 1], [0, 1]);
   return { opacity };
 };
 
 // Good - covers full [0, 1, 2] range
 screenStyleInterpolator: (progress) => {
-  'worklet';
+  "worklet";
   const opacity = interpolate(progress, [0, 1, 2], [0, 1, 0]);
   return { opacity };
 };
@@ -442,12 +449,12 @@ screenStyleInterpolator: (progress) => {
 
 ```jsx
 // Bad - regular ScrollView conflicts with transition gestures
-import { Transition } from 'react-native-screen-transitions';
-import { ScrollView } from 'react-native';
+import { Transition } from "react-native-screen-transitions";
+import { ScrollView } from "react-native";
 <ScrollView>...</ScrollView>;
 
 // Good
-import { Transition } from 'react-native-screen-transitions';
+import { Transition } from "react-native-screen-transitions";
 <Transition.ScrollView>...</Transition.ScrollView>;
 ```
 
@@ -475,7 +482,7 @@ import { Transition } from 'react-native-screen-transitions';
 <Stack.Screen options={{ enableTransitions: true }} />;
 
 // Good - use Blank Stack from react-native-screen-transitions
-import { BlankStack } from 'react-native-screen-transitions';
+import { BlankStack } from "react-native-screen-transitions";
 ```
 
 ### `sql-no-nested-calls`
@@ -515,7 +522,7 @@ const value = data as string;
 const user = response.data as User;
 
 // Good - type narrowing
-if (typeof data === 'string') {
+if (typeof data === "string") {
   const value = data;
 }
 
@@ -529,13 +536,13 @@ const user: User = response.data;
 // Bad - loose equality
 if (a == b) {
 }
-if (x != 'hello') {
+if (x != "hello") {
 }
 
 // Good - strict equality
 if (a === b) {
 }
-if (x !== 'hello') {
+if (x !== "hello") {
 }
 
 // OK - == null is idiomatic for null/undefined check
@@ -570,14 +577,14 @@ const url = `https://api.example.com?q=${encodeURIComponent(query)}`;
 try {
   fetchData();
 } catch (error) {
-  logger.error('Failed', error);
+  logger.error("Failed", error);
 }
 
 // Good - both logging and Sentry
 try {
   fetchData();
 } catch (error) {
-  logger.error('Failed', error);
+  logger.error("Failed", error);
   Sentry.captureException(error);
 }
 ```
@@ -627,13 +634,13 @@ const message = error instanceof Error ? error.message : JSON.stringify(error);
 
 ```typescript
 // Bad - missing err property
-logger.error({}, 'something failed');
-logger.error({ userId: 1 }, 'request failed');
-logger.error('something went wrong');
+logger.error({}, "something failed");
+logger.error({ userId: 1 }, "request failed");
+logger.error("something went wrong");
 
 // Good - includes err for stack traces
-logger.error({ err: error }, 'something failed');
-logger.error({ err: new Error('x'), userId: 1 }, 'request failed');
+logger.error({ err: error }, "something failed");
+logger.error({ err: new Error("x"), userId: 1 }, "request failed");
 ```
 
 ### `no-silent-skip`
@@ -653,7 +660,7 @@ function process(user) {
     sendEmail(user);
     updateDb(user);
   } else {
-    logger.warn('No user provided, skipping processing');
+    logger.warn("No user provided, skipping processing");
   }
 }
 
@@ -676,11 +683,11 @@ for (let attempt = 0; attempt < 15; attempt++) {
 }
 
 // Good - use a retry library
-import retry from 'async-retry';
+import retry from "async-retry";
 const result = await retry(
   async () => {
     const res = await checkStatus(id);
-    if (!res.ready) throw new Error('not ready');
+    if (!res.ready) throw new Error("not ready");
     return res;
   },
   { retries: 15, minTimeout: 2000 },
@@ -714,7 +721,7 @@ const data = JSON.parse(rawInput);
 try {
   const data = JSON.parse(rawInput);
 } catch (e) {
-  console.error('Failed to parse JSON', e);
+  console.error("Failed to parse JSON", e);
 }
 
 // For JSON.stringify with circular references, consider using fast-safe-stringify
@@ -744,14 +751,14 @@ interface UserProps {
 
 ```typescript
 // Bad - synchronous fs methods block the event loop
-import fs from 'fs';
-const data = fs.readFileSync('file.txt', 'utf-8');
-fs.writeFileSync('output.txt', data);
+import fs from "fs";
+const data = fs.readFileSync("file.txt", "utf-8");
+fs.writeFileSync("output.txt", data);
 
 // Good - use async fs methods
-import { readFile, writeFile } from 'fs/promises';
-const data = await readFile('file.txt', 'utf-8');
-await writeFile('output.txt', data);
+import { readFile, writeFile } from "fs/promises";
+const data = await readFile("file.txt", "utf-8");
+await writeFile("output.txt", data);
 ```
 
 ### `prefer-named-params`
@@ -763,7 +770,15 @@ function createUser(name: string, email: string, age: number) {
 }
 
 // Good - named parameters via object destructuring
-function createUser({ name, email, age }: { name: string; email: string; age: number }) {
+function createUser({
+  name,
+  email,
+  age,
+}: {
+  name: string;
+  email: string;
+  age: number;
+}) {
   return { name, email, age };
 }
 ```
@@ -778,9 +793,9 @@ Callbacks (`.map`, `.filter`, `.reduce`, `.sort`, `.then`, etc.) and `React.forw
 
 ```typescript
 // src/rules/my-rule.ts
-import traverse from '@babel/traverse';
-import type { File } from '@babel/types';
-import type { LintResult } from '../types';
+import traverse from "@babel/traverse";
+import type { File } from "@babel/types";
+import type { LintResult } from "../types";
 
 export function myRule(ast: File, code: string): LintResult[] {
   const results: LintResult[] = [];
@@ -789,11 +804,11 @@ export function myRule(ast: File, code: string): LintResult[] {
     CallExpression(path) {
       // Check for violations...
       results.push({
-        rule: 'my-rule',
-        message: 'Description of the issue',
+        rule: "my-rule",
+        message: "Description of the issue",
         line: path.node.loc?.start.line ?? 0,
         column: path.node.loc?.start.column ?? 0,
-        severity: 'error', // or 'warning'
+        severity: "error", // or 'warning'
       });
     },
   });
@@ -825,7 +840,7 @@ interface LintResult {
   message: string;
   line: number; // 1-indexed
   column: number; // 0-indexed
-  severity: 'error' | 'warning';
+  severity: "error" | "warning";
 }
 ```
 
