@@ -770,15 +770,7 @@ function createUser(name: string, email: string, age: number) {
 }
 
 // Good - named parameters via object destructuring
-function createUser({
-  name,
-  email,
-  age,
-}: {
-  name: string;
-  email: string;
-  age: number;
-}) {
+function createUser({ name, email, age }: { name: string; email: string; age: number }) {
   return { name, email, age };
 }
 ```
