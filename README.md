@@ -241,11 +241,11 @@ const backendRules = getRulesForPlatform('backend');
 | `sql-no-nested-calls`                | error    | backend   | Don't nest sql template tags                                     |
 | `no-sync-fs`                         | error    | backend   | Use fs.promises or fs/promises instead of sync fs methods        |
 | `no-unrestricted-loop-in-serverless` | error    | backend   | Unbounded loops (while(true), for(;;)) cause serverless timeouts |
-| `prefer-lucide-icons`     | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
-| `no-react-native-in-web`  | error    | web       | Don't import react-native in web modules (causes ESM failures) |
-| `prefer-lucide-icons`     | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
-| `no-module-level-new`     | error    | web       | Don't use `new` at module scope (crashes during SSR)           |
-| `no-deprecated-url-parse` | warning  | backend   | Use `new URL()` instead of deprecated `url.parse()`            |
+| `prefer-lucide-icons`                | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                    |
+| `no-react-native-in-web`             | error    | web       | Don't import react-native in web modules (causes ESM failures)   |
+| `prefer-lucide-icons`                | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                    |
+| `no-module-level-new`                | error    | web       | Don't use `new` at module scope (crashes during SSR)             |
+| `no-deprecated-url-parse`            | warning  | backend   | Use `new URL()` instead of deprecated `url.parse()`              |
 
 ---
 
