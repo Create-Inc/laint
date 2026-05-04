@@ -18,12 +18,17 @@ By default, all 45 rules run. To customize, create a `laint.config.json` in your
 
 ```json
 // Only run these specific rules (include mode)
-{ "rules": ["no-relative-paths", "expo-image-import", "fetch-response-ok-check"] }
+{
+  "rules": ["no-relative-paths", "expo-image-import", "fetch-response-ok-check"]
+}
 ```
 
 ```json
 // Run all rules except these (exclude mode)
-{ "rules": ["no-tailwind-animation-classes", "no-stylesheet-create"], "exclude": true }
+{
+  "rules": ["no-tailwind-animation-classes", "no-stylesheet-create"],
+  "exclude": true
+}
 ```
 
 ```json
@@ -117,7 +122,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (52 total)
+## Available Rules (53 total)
 
 ### Expo Router Rules
 
@@ -230,6 +235,8 @@ const backendRules = getRulesForPlatform('backend');
 | ------------------------ | -------- | --------- | -------------------------------------------------------------- |
 | `prefer-lucide-icons`    | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
 | `no-react-native-in-web` | error    | web       | Don't import react-native in web modules (causes ESM failures) |
+| `prefer-lucide-icons`    | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
+| `no-module-level-new`    | error    | web       | Don't use `new` at module scope (crashes during SSR)           |
 
 ---
 

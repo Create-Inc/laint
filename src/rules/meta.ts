@@ -34,6 +34,7 @@ export const rulePlatforms: Partial<Record<string, Platform[]>> = {
   'no-server-import-in-client': ['web'],
   'ssr-browser-api-guard': ['web'],
   'no-react-native-in-web': ['web'],
+  'no-module-level-new': ['web'],
 
   // Expo + Web (shared frontend)
   'no-relative-paths': ['expo', 'web'],

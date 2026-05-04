@@ -51,6 +51,7 @@ import { requireUseClient } from './require-use-client';
 import { noServerImportInClient } from './no-server-import-in-client';
 import { ssrBrowserApiGuard } from './ssr-browser-api-guard';
 import { noReactNativeInWeb } from './no-react-native-in-web';
+import { noModuleLevelNew } from './no-module-level-new';
 
 export const rules: Record<string, RuleFunction> = {
   'no-relative-paths': noRelativePaths,
@@ -105,4 +106,5 @@ export const rules: Record<string, RuleFunction> = {
   'no-server-import-in-client': noServerImportInClient,
   'ssr-browser-api-guard': ssrBrowserApiGuard,
   'no-react-native-in-web': noReactNativeInWeb,
+  'no-module-level-new': noModuleLevelNew,
 };
