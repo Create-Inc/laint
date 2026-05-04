@@ -203,4 +203,94 @@ describe('prefer-promise-all rule', () => {
     const results = lintJsxCode(code, config);
     expect(results).toHaveLength(0);
   });
+
+  // Cross-iteration dependency via member-expression assignment.
+  // Pre-fix this would false-positive because hasCrossIterationDependency only
+  // looked at Identifier lefts. dx5v review on PR #57.
+  it('should NOT flag cross-iteration dependency through member expression LHS', () => {
+    const code = `
+      async function chain(items) {
+        const state = { prev: null };
+        for (const item of items) {
+          state.prev = await process(state.prev, item);
+        }
+        return state.prev;
+      }
+    `;
+    const results = lintJsxCode(code, config);
+    expect(results).toHaveLength(0);
+  });
+
+  it('should NOT flag cross-iteration dependency through nested member expression LHS', () => {
+    const code = `
+      async function chain(items) {
+        const state = { meta: { prev: null } };
+        for (const item of items) {
+          state.meta.prev = await process(state.meta.prev, item);
+        }
+      }
+    `;
+    const results = lintJsxCode(code, config);
+    expect(results).toHaveLength(0);
+  });
+
+  // Cross-iteration dependency via object-pattern assignment (re-bind).
+  // dx5v review on PR #57.
+  it('should NOT flag cross-iteration dependency through object-pattern LHS', () => {
+    const code = `
+      async function chain(items) {
+        let next = null;
+        for (const item of items) {
+          ({ next } = await process(next, item));
+        }
+        return next;
+      }
+    `;
+    const results = lintJsxCode(code, config);
+    expect(results).toHaveLength(0);
+  });
+
+  // Cross-iteration dependency via aliased object-pattern (e.g. `{ a: x }`).
+  it('should NOT flag cross-iteration dependency through aliased object-pattern LHS', () => {
+    const code = `
+      async function chain(items) {
+        let prev = null;
+        for (const item of items) {
+          ({ next: prev } = await process(prev, item));
+        }
+      }
+    `;
+    const results = lintJsxCode(code, config);
+    expect(results).toHaveLength(0);
+  });
+
+  // Cross-iteration dependency via array-pattern assignment.
+  it('should NOT flag cross-iteration dependency through array-pattern LHS', () => {
+    const code = `
+      async function chain(items) {
+        let prev = null;
+        let count = 0;
+        for (const item of items) {
+          [prev, count] = await process(prev, item);
+        }
+      }
+    `;
+    const results = lintJsxCode(code, config);
+    expect(results).toHaveLength(0);
+  });
+
+  // Member writes targeting a fresh object declared inside the loop should
+  // still flag — the root binding is loop-local, not cross-iteration.
+  it('should still flag member-expression assignment to a loop-local object', () => {
+    const code = `
+      async function processAll(items) {
+        for (const item of items) {
+          const local = {};
+          local.value = await fetchItem(item);
+        }
+      }
+    `;
+    const results = lintJsxCode(code, config);
+    expect(results).toHaveLength(1);
+  });
 });
