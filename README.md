@@ -237,6 +237,7 @@ const backendRules = getRulesForPlatform('backend');
 | `no-react-native-in-web` | error    | web       | Don't import react-native in web modules (causes ESM failures) |
 | `prefer-lucide-icons`    | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
 | `no-module-level-new`    | error    | web       | Don't use `new` at module scope (crashes during SSR)           |
+| `prefer-promise-all`     | warning  | universal | Use Promise.all instead of sequential await in for...of loops  |
 
 ---
 
