@@ -25,6 +25,8 @@ export const rulePlatforms: Partial<Record<string, Platform[]>> = {
   'transition-gesture-scrollview': ['expo'],
   'transition-shared-tag-mismatch': ['expo'],
   'transition-prefer-blank-stack': ['expo'],
+  'no-redirect-to-route-group': ['expo'],
+  'require-auth-initiate-call': ['expo'],
 
   // Web
   'no-inline-script-code': ['web'],

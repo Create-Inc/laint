@@ -122,7 +122,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (53 total)
+## Available Rules (55 total)
 
 ### Expo Router Rules
 
@@ -231,12 +231,16 @@ const backendRules = getRulesForPlatform('backend');
 
 ### General Rules
 
-| Rule                     | Severity | Platform  | Description                                                    |
-| ------------------------ | -------- | --------- | -------------------------------------------------------------- |
-| `prefer-lucide-icons`    | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
-| `no-react-native-in-web` | error    | web       | Don't import react-native in web modules (causes ESM failures) |
-| `prefer-lucide-icons`    | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
-| `no-module-level-new`    | error    | web       | Don't use `new` at module scope (crashes during SSR)           |
+| Rule                         | Severity | Platform  | Description                                                                |
+| ---------------------------- | -------- | --------- | -------------------------------------------------------------------------- |
+| `prefer-lucide-icons`        | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                              |
+| `no-react-native-in-web`     | error    | web       | Don't import react-native in web modules (causes ESM failures)             |
+| `prefer-lucide-icons`        | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                              |
+| `no-module-level-new`        | error    | web       | Don't use `new` at module scope (crashes during SSR)                       |
+| `no-relative-paths`          | error    | expo, web | Use absolute paths in router.navigate/push and Link href                   |
+| `header-shown-false`         | warning  | expo      | (tabs) Screen in root layout needs `headerShown: false`                    |
+| `no-redirect-to-route-group` | error    | expo      | `<Redirect href>` must point to a real route, not a route group            |
+| `require-auth-initiate-call` | error    | expo      | If a layout gates render on `useAuth().isReady`, it must call `initiate()` |
 
 ---
 
@@ -778,6 +782,51 @@ function createUser({ name, email, age }: { name: string; email: string; age: nu
 Callbacks (`.map`, `.filter`, `.reduce`, `.sort`, `.then`, etc.) and `React.forwardRef`/`memo` are excluded.
 
 ---
+
+### `no-redirect-to-route-group`
+
+```tsx
+// Bad - "(tabs)" is a route group, stripped during URL resolution.
+// app/(tabs)/index.tsx already maps to "/"; redirecting to "/(tabs)" creates
+// a conflict (or silent no-op) and the screen renders blank.
+import { Redirect } from 'expo-router';
+export default function Index() {
+  return <Redirect href="/(tabs)" />;
+}
+
+// Good - either redirect to a concrete sub-route...
+return <Redirect href="/explore" />;
+
+// ...or remove app/index.tsx entirely and let app/(tabs)/index.tsx handle "/".
+```
+
+### `require-auth-initiate-call`
+
+```tsx
+// Bad - useAuth().isReady gates render, but initiate() is never called,
+// so the persisted JWT is never loaded from SecureStore. isReady stays
+// false forever and the app renders blank.
+import { useAuth } from '@/utils/auth/useAuth';
+
+export default function RootLayout() {
+  const { isReady } = useAuth();
+  if (!isReady) return null;
+  return <Stack />;
+}
+
+// Good - destructure initiate and call it in a useEffect.
+import { useAuth } from '@/utils/auth/useAuth';
+import { useEffect } from 'react';
+
+export default function RootLayout() {
+  const { initiate, isReady } = useAuth();
+  useEffect(() => {
+    initiate();
+  }, [initiate]);
+  if (!isReady) return null;
+  return <Stack />;
+}
+```
 
 ## Adding a New Rule
 
