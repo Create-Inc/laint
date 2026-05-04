@@ -53,6 +53,7 @@ import { ssrBrowserApiGuard } from './ssr-browser-api-guard';
 import { noReactNativeInWeb } from './no-react-native-in-web';
 import { noModuleLevelNew } from './no-module-level-new';
 import { noUnrestrictedLoopInServerless } from './no-unrestricted-loop-in-serverless';
+import { preferPromiseAll } from './prefer-promise-all';
 import { noDeprecatedUrlParse } from './no-deprecated-url-parse';
 
 export const rules: Record<string, RuleFunction> = {
@@ -110,5 +111,6 @@ export const rules: Record<string, RuleFunction> = {
   'no-react-native-in-web': noReactNativeInWeb,
   'no-module-level-new': noModuleLevelNew,
   'no-unrestricted-loop-in-serverless': noUnrestrictedLoopInServerless,
+  'prefer-promise-all': preferPromiseAll,
   'no-deprecated-url-parse': noDeprecatedUrlParse,
 };

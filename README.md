@@ -122,7 +122,7 @@ const webRules = getRulesForPlatform('web');
 const backendRules = getRulesForPlatform('backend');
 ```
 
-## Available Rules (54 total)
+## Available Rules (55 total)
 
 ### Expo Router Rules
 
@@ -241,6 +241,7 @@ const backendRules = getRulesForPlatform('backend');
 | `sql-no-nested-calls`                | error    | backend   | Don't nest sql template tags                                     |
 | `no-sync-fs`                         | error    | backend   | Use fs.promises or fs/promises instead of sync fs methods        |
 | `no-unrestricted-loop-in-serverless` | error    | backend   | Unbounded loops (while(true), for(;;)) cause serverless timeouts |
+| `prefer-promise-all`                 | warning  | universal | Use Promise.all instead of sequential await in for...of loops    |
 | `prefer-lucide-icons`                | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                    |
 | `no-react-native-in-web`             | error    | web       | Don't import react-native in web modules (causes ESM failures)   |
 | `prefer-lucide-icons`                | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                    |
