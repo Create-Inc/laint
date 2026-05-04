@@ -231,12 +231,13 @@ const backendRules = getRulesForPlatform('backend');
 
 ### General Rules
 
-| Rule                     | Severity | Platform  | Description                                                    |
-| ------------------------ | -------- | --------- | -------------------------------------------------------------- |
-| `prefer-lucide-icons`    | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
-| `no-react-native-in-web` | error    | web       | Don't import react-native in web modules (causes ESM failures) |
-| `prefer-lucide-icons`    | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
-| `no-module-level-new`    | error    | web       | Don't use `new` at module scope (crashes during SSR)           |
+| Rule                      | Severity | Platform  | Description                                                    |
+| ------------------------- | -------- | --------- | -------------------------------------------------------------- |
+| `prefer-lucide-icons`     | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
+| `no-react-native-in-web`  | error    | web       | Don't import react-native in web modules (causes ESM failures) |
+| `prefer-lucide-icons`     | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                  |
+| `no-module-level-new`     | error    | web       | Don't use `new` at module scope (crashes during SSR)           |
+| `no-deprecated-url-parse` | warning  | backend   | Use `new URL()` instead of deprecated `url.parse()`            |
 
 ---
 
