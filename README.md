@@ -231,17 +231,17 @@ const backendRules = getRulesForPlatform('backend');
 
 ### General Rules
 
-| Rule                                 | Severity | Platform  | Description                                                      |
-| ------------------------------------ | -------- | --------- | ---------------------------------------------------------------- |
-| `prefer-lucide-icons`                | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                    |
-| `no-react-native-in-web`             | error    | web       | Don't import react-native in web modules (causes ESM failures)   |
-| `no-module-level-new`                | error    | web       | Don't use `new` at module scope (crashes during SSR)             |
-| `no-require-statements`              | error    | backend   | Use ES imports, not CommonJS require                             |
-| `no-response-json-lowercase`         | warning  | backend   | Use Response.json() instead of new Response(JSON.stringify())    |
-| `sql-no-nested-calls`                | error    | backend   | Don't nest sql template tags                                     |
-| `no-sync-fs`                         | error    | backend   | Use fs.promises or fs/promises instead of sync fs methods        |
-| `no-unrestricted-loop-in-serverless` | error    | backend   | Unbounded loops (while(true), for(;;)) cause serverless timeouts |
-| `prefer-promise-all`                 | warning  | universal | Use Promise.all instead of sequential await in for...of loops    |
+| Rule                                 | Severity | Platform  | Description                                                                |
+| ------------------------------------ | -------- | --------- | -------------------------------------------------------------------------- |
+| `prefer-lucide-icons`                | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                              |
+| `no-react-native-in-web`             | error    | web       | Don't import react-native in web modules (causes ESM failures)             |
+| `no-module-level-new`                | error    | web       | Don't use `new` at module scope (crashes during SSR)                       |
+| `no-require-statements`              | error    | backend   | Use ES imports, not CommonJS require                                       |
+| `no-response-json-lowercase`         | warning  | backend   | Use Response.json() instead of new Response(JSON.stringify())              |
+| `sql-no-nested-calls`                | error    | backend   | Don't nest sql template tags                                               |
+| `no-sync-fs`                         | error    | backend   | Use fs.promises or fs/promises instead of sync fs methods                  |
+| `no-unrestricted-loop-in-serverless` | error    | backend   | Unbounded loops (while(true), for(;;)) cause serverless timeouts           |
+| `prefer-promise-all`                 | warning  | universal | Use Promise.all instead of sequential await in for...of loops              |
 | `prefer-lucide-icons`                | warning  | expo, web | Prefer lucide-react/lucide-react-native icons                              |
 | `no-react-native-in-web`             | error    | web       | Don't import react-native in web modules (causes ESM failures)             |
 | `no-module-level-new`                | error    | web       | Don't use `new` at module scope (crashes during SSR)                       |
@@ -844,7 +844,6 @@ export default function RootLayout() {
   return <Stack />;
 }
 ```
-
 
 ## Adding a New Rule
 
